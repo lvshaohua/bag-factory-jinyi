@@ -2,11 +2,11 @@
 # Cloudflare Pages + D1 configuration
 
 name = "bag-factory-jinyi"
-compatibility_date = "2026-06-18"
+compatibility_date = "2026-06-19"
 pages_build_output_dir = "."
 
 # D1 database binding
 [[d1_databases]]
 binding = "DB"
 database_name = "bag-factory-db"
-database_id = "your-database-id-here"
+database_id = "666984d4-160a-44d4-ba1e-c76b8cd680a5"
