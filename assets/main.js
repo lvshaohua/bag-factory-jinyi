@@ -93,75 +93,75 @@
     <div class="modal-overlay" id="inquiryModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <div class="modal">
         <div class="modal-header">
-          <h2 id="modalTitle">立即咨询</h2>
-          <button type="button" class="modal-close" aria-label="关闭弹窗" id="modalClose">
+          <h2 id="modalTitle" data-i18n="modal_title">立即咨询</h2>
+          <button type="button" class="modal-close" aria-label="关闭弹窗" id="modalClose" data-i18n-aria="modal_close">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
         <div class="modal-body">
           <form class="modal-form" id="inquiryForm" novalidate>
             <div class="form-group">
-              <label for="inquiryName">称呼 <span class="required-mark">*</span></label>
-              <input type="text" id="inquiryName" name="name" required placeholder="请输入您的称呼">
+              <label for="inquiryName"><span data-i18n="modal_name">称呼</span> <span class="required-mark" data-i18n="label_required">*</span></label>
+              <input type="text" id="inquiryName" name="name" required placeholder="请输入您的称呼" data-i18n-placeholder="modal_name_ph">
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label for="inquiryCountry">国家 <span class="label-note">（选填）</span></label>
-                <input type="text" id="inquiryCountry" name="country" placeholder="如：中国、美国">
+                <label for="inquiryCountry"><span data-i18n="modal_country">国家</span> <span class="label-note" data-i18n="label_optional">（选填）</span></label>
+                <input type="text" id="inquiryCountry" name="country" placeholder="如：中国、美国" data-i18n-placeholder="modal_country_ph">
               </div>
               <div class="form-group">
-                <label for="inquiryPhone">手机号 <span class="label-note">（选填）</span></label>
-                <input type="tel" id="inquiryPhone" name="phone" placeholder="您的联系电话">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="inquiryEmail">邮箱 <span class="label-note">（选填）</span></label>
-                <input type="email" id="inquiryEmail" name="email" placeholder="your@email.com">
-              </div>
-              <div class="form-group">
-                <label for="inquiryWhatsapp">WhatsApp <span class="label-note">（选填）</span></label>
-                <input type="text" id="inquiryWhatsapp" name="whatsapp" placeholder="WhatsApp号码">
+                <label for="inquiryPhone"><span data-i18n="modal_phone">手机号</span> <span class="label-note" data-i18n="label_optional">（选填）</span></label>
+                <input type="tel" id="inquiryPhone" name="phone" placeholder="您的联系电话" data-i18n-placeholder="modal_phone_ph">
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label for="inquiryProduct">产品类型 <span class="label-note">（选填）</span></label>
+                <label for="inquiryEmail"><span data-i18n="modal_email">邮箱</span> <span class="label-note" data-i18n="label_optional">（选填）</span></label>
+                <input type="email" id="inquiryEmail" name="email" placeholder="your@email.com" data-i18n-placeholder="modal_email_ph">
+              </div>
+              <div class="form-group">
+                <label for="inquiryWhatsapp"><span data-i18n="modal_whatsapp">WhatsApp</span> <span class="label-note" data-i18n="label_optional">（选填）</span></label>
+                <input type="text" id="inquiryWhatsapp" name="whatsapp" placeholder="WhatsApp号码" data-i18n-placeholder="modal_whatsapp_ph">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="inquiryProduct"><span data-i18n="modal_product">产品类型</span> <span class="label-note" data-i18n="label_optional">（选填）</span></label>
                 <select id="inquiryProduct" name="product">
-                  <option value="">请选择</option>
-                  <option value="帆布袋">帆布袋</option>
-                  <option value="无纺布袋">无纺布袋</option>
-                  <option value="杜邦纸袋">杜邦纸袋</option>
-                  <option value="防水袋">防水袋</option>
-                  <option value="其他">其他</option>
+                  <option value="" data-i18n="modal_product_sel">请选择</option>
+                  <option value="帆布袋" data-i18n="modal_canvas">帆布袋</option>
+                  <option value="无纺布袋" data-i18n="modal_nonwoven">无纺布袋</option>
+                  <option value="杜邦纸袋" data-i18n="modal_tyvek">杜邦纸袋</option>
+                  <option value="防水袋" data-i18n="modal_waterproof">防水袋</option>
+                  <option value="其他" data-i18n="modal_other">其他</option>
                 </select>
               </div>
               <div class="form-group">
-                <label for="inquiryQuantity">预计数量 <span class="label-note">（选填）</span></label>
+                <label for="inquiryQuantity"><span data-i18n="modal_quantity">预计数量</span> <span class="label-note" data-i18n="label_optional">（选填）</span></label>
                 <select id="inquiryQuantity" name="quantity">
-                  <option value="">请选择</option>
-                  <option value="100-500">100-500个</option>
-                  <option value="500-1000">500-1000个</option>
-                  <option value="1000-5000">1000-5000个</option>
-                  <option value="5000+">5000个以上</option>
+                  <option value="" data-i18n="modal_qty_sel">请选择</option>
+                  <option value="100-500" data-i18n="modal_qty_100">100-500个</option>
+                  <option value="500-1000" data-i18n="modal_qty_500">500-1000个</option>
+                  <option value="1000-5000" data-i18n="modal_qty_1000">1000-5000个</option>
+                  <option value="5000+" data-i18n="modal_qty_5000">5000个以上</option>
                 </select>
               </div>
             </div>
             <div class="form-group">
-              <label for="inquiryMessage">需求描述 <span class="label-note">（选填）</span></label>
-              <textarea id="inquiryMessage" name="message" rows="3" placeholder="请描述您的需求..."></textarea>
+              <label for="inquiryMessage"><span data-i18n="modal_message">需求描述</span> <span class="label-note" data-i18n="label_optional">（选填）</span></label>
+              <textarea id="inquiryMessage" name="message" rows="3" placeholder="请描述您的需求..." data-i18n-placeholder="modal_message_ph"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary modal-submit" id="modalSubmit">提交咨询</button>
+            <button type="submit" class="btn btn-primary modal-submit" id="modalSubmit" data-i18n="modal_submit">提交咨询</button>
           </form>
           <div class="modal-success" id="modalSuccess" style="display:none;">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            <h3>提交成功！</h3>
-            <p>我们将尽快与您联系，请保持联系方式畅通。</p>
+            <h3 data-i18n="modal_success_title">提交成功！</h3>
+            <p data-i18n="modal_success_msg">我们将尽快与您联系，请保持联系方式畅通。</p>
           </div>
           <div class="modal-error" id="modalError" style="display:none;">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C45C26" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-            <h3>提交失败</h3>
-            <p id="modalErrorText">请稍后重试，或直接通过电话联系我们。</p>
+            <h3 data-i18n="modal_error_title">提交失败</h3>
+            <p id="modalErrorText" data-i18n="modal_error_msg">请稍后重试，或直接通过电话联系我们。</p>
           </div>
         </div>
       </div>
@@ -230,7 +230,11 @@
     }
 
     modalSubmit.disabled = true;
-    modalSubmit.textContent = '提交中...';
+    if (window.I18N) {
+      modalSubmit.textContent = window.I18N.t('modal_submitting');
+    } else {
+      modalSubmit.textContent = '提交中...';
+    }
 
     const data = {
       name: name,
@@ -261,13 +265,21 @@
         modalError.style.display = 'block';
       }
     } catch (err) {
-      modalErrorText.textContent = '网络错误，请稍后重试或直接电话联系。';
+      if (window.I18N) {
+        modalErrorText.textContent = window.I18N.t('modal_net_error');
+      } else {
+        modalErrorText.textContent = '网络错误，请稍后重试或直接电话联系。';
+      }
       inquiryForm.style.display = 'none';
       modalError.style.display = 'block';
     }
 
     modalSubmit.disabled = false;
-    modalSubmit.textContent = '提交咨询';
+    if (window.I18N) {
+      modalSubmit.textContent = window.I18N.t('modal_submit');
+    } else {
+      modalSubmit.textContent = '提交咨询';
+    }
   });
 
   // Contact page form fallback
@@ -285,10 +297,14 @@
           body: JSON.stringify(data)
         });
         const result = await response.json();
-        alert(result.success ? '提交成功！我们将尽快与您联系。' : (result.error || '提交失败'));
+        const successMsg = window.I18N ? window.I18N.t('contact_success') : '提交成功！我们将尽快与您联系。';
+        const failMsg = window.I18N ? window.I18N.t('contact_fail') : '提交失败';
+        const netErrorMsg = window.I18N ? window.I18N.t('contact_net_error') : '网络错误，请稍后重试。';
+        alert(result.success ? successMsg : (result.error || failMsg));
         if (result.success) this.reset();
       } catch (err) {
-        alert('网络错误，请稍后重试。');
+        const netErrorMsg = window.I18N ? window.I18N.t('contact_net_error') : '网络错误，请稍后重试。';
+        alert(netErrorMsg);
       }
     });
   }
