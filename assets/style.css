@@ -50,9 +50,57 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Navigation */
+/* ===== Top Bar ===== */
+.top-bar {
+  background: var(--ink);
+  color: var(--surface);
+  font-size: 0.8rem;
+  padding: 0.4rem 0;
+}
+.top-bar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.top-bar-left, .top-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.top-bar-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.top-bar-item:hover {
+  color: #fff;
+}
+.top-bar-item svg {
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+@media (max-width: 640px) {
+  .top-bar-inner {
+    justify-content: center;
+    padding: 0.3rem 1rem;
+  }
+  .top-bar-left, .top-bar-right {
+    gap: 0.8rem;
+  }
+}
+
+/* ===== Navbar ===== */
 .navbar {
-  position: fixed;
+  position: sticky;
   top: 0; left: 0; right: 0;
   z-index: 1000;
   background: rgba(250, 250, 248, 0.92);
@@ -326,6 +374,71 @@ body {
   font-size: 0.8rem;
   color: var(--muted);
   margin-top: 0.3rem;
+}
+
+/* ===== Value Props Bar ===== */
+.value-props {
+  background: var(--ink);
+  color: #fff;
+  padding: 1.5rem 0;
+}
+.value-props-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+}
+.value-prop-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1.5rem;
+}
+.value-prop-item strong {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+}
+.value-prop-item span {
+  display: block;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.6);
+}
+.value-prop-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.value-prop-icon svg {
+  stroke: var(--accent);
+}
+.value-prop-divider {
+  width: 1px;
+  height: 36px;
+  background: rgba(255,255,255,0.15);
+}
+@media (max-width: 768px) {
+  .value-props-inner {
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+  .value-prop-item {
+    padding: 0.4rem 0.8rem;
+    flex: 1 1 45%;
+  }
+  .value-prop-divider {
+    display: none;
+  }
 }
 
 /* Page Header */
@@ -817,6 +930,94 @@ body {
   font-size: 0.9rem;
   color: rgba(255,255,255,0.6);
   line-height: 1.7;
+}
+
+/* ===== News Section ===== */
+.news-section { background: var(--bg2); }
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.news-card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 2rem;
+  display: flex;
+  gap: 1.5rem;
+  transition: all 0.3s;
+}
+
+.news-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+}
+
+.news-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 64px;
+  height: 64px;
+  background: var(--accent);
+  border-radius: 8px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.news-day {
+  font-family: 'InstrumentSerif', serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.news-month {
+  font-size: 0.65rem;
+  font-weight: 600;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+.news-body {
+  flex: 1;
+}
+
+.news-category {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.news-body h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.news-body p {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+  .news-card {
+    padding: 1.5rem;
+  }
 }
 
 /* Craftsmanship Section */

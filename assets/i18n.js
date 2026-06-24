@@ -147,6 +147,34 @@
     'index_cta_btn': { 'zh': '立即咨询', 'en': 'Get Started' },
     'index_footer_desc': { 'zh': '专注袋类定制生产12年，服务超过5000家企业客户。我们以专业的工艺、优质的服务、合理的价格，助力您的品牌传播。', 'en': '12 years in bag customization, serving 5000+ business clients. Professional craftsmanship, quality service, fair pricing.' },
 
+    // ===== Top Bar =====
+    'top_bar_moq': { 'zh': '100个起订 · 小批量友好', 'en': '100 pcs MOQ · Small Batch Friendly' },
+    'top_bar_global': { 'zh': '面向全球 · 出口经验丰富', 'en': 'Global Shipping · Export Experience' },
+
+    // ===== Value Props =====
+    'vp_custom': { 'zh': '来图定制', 'en': 'Custom Design' },
+    'vp_custom_desc': { 'zh': 'Logo、图案、文字任意印', 'en': 'Logo, graphics, text — any print' },
+    'vp_moq': { 'zh': '100个起订', 'en': '100 pcs MOQ' },
+    'vp_moq_desc': { 'zh': '小批量也能做', 'en': 'Small batches welcome' },
+    'vp_speed': { 'zh': '7天交付', 'en': '7-Day Delivery' },
+    'vp_speed_desc': { 'zh': '急单可缩短至3天', 'en': 'Rush orders in 3 days' },
+    'vp_global': { 'zh': '全球发货', 'en': 'Global Shipping' },
+    'vp_global_desc': { 'zh': '出口经验丰富', 'en': 'Export experience' },
+
+    // ===== News Section =====
+    'index_news_tag': { 'zh': '工坊动态', 'en': 'News' },
+    'index_news_h2': { 'zh': '最新资讯', 'en': 'Latest Updates' },
+    'index_news_p': { 'zh': '了解袋尚工坊的最新产品、工艺升级和行业动态', 'en': 'Latest products, process upgrades, and industry news from BagCraft Workshop.' },
+    'news_cat_product': { 'zh': '产品升级', 'en': 'Product' },
+    'news_cat_global': { 'zh': '全球业务', 'en': 'Global' },
+    'news_cat_factory': { 'zh': '工厂动态', 'en': 'Factory' },
+    'news_1_title': { 'zh': '新增数码直喷工艺，支持全彩照片级印刷', 'en': 'New DTG Printing: Full-Color Photo Quality' },
+    'news_1_desc': { 'zh': '引进最新数码直喷设备，无需制版即可实现高精度全彩印刷，适合小批量多图案订单，起订量低至50个。', 'en': 'New DTG equipment enables high-precision full-color printing without plates. Ideal for small batch multi-pattern orders, MOQ as low as 50 pcs.' },
+    'news_2_title': { 'zh': '成功交付欧洲客户5000个杜邦纸袋订单', 'en': 'Delivered 5,000 Tyvek Bags to European Client' },
+    'news_2_desc': { 'zh': '为法国某设计师品牌定制高端杜邦纸袋，从设计确认到交付仅用时12天，获得客户高度评价。', 'en': 'Custom premium Tyvek bags for a French designer brand. From design confirmation to delivery in just 12 days, highly praised by the client.' },
+    'news_3_title': { 'zh': '生产车间扩建完成，产能提升40%', 'en': 'Factory Expansion Complete: 40% Capacity Increase' },
+    'news_3_desc': { 'zh': '新增2条自动化生产线，日产能从3000只提升至5000只，大幅缩短交货周期，满足旺季需求。', 'en': 'Two new automated production lines added. Daily capacity increased from 3,000 to 5,000 pcs, significantly shortening lead times.' },
+
     // ===== Products Page =====
     'products_title': { 'zh': '产品中心 - 帆布袋无纺布袋杜邦纸袋定制 | 袋尚工坊', 'en': 'Products - Custom Canvas/Non-woven/Tyvek Bags | BagCraft Workshop' },
     'products_desc': { 'zh': '袋尚工坊产品中心：帆布袋、无纺布袋、杜邦纸袋三大品类批量定制。上海市嘉定区源头工厂，100个起订，支持丝印热转印刺绣等多种工艺。', 'en': 'BagCraft Workshop products: canvas, non-woven & Tyvek bags. Jiading Shanghai factory, 100 pcs MOQ, multiple printing techniques.' },
