@@ -695,6 +695,7 @@ body {
   aspect-ratio: 1;
   overflow: hidden;
   background: var(--bg);
+  position: relative;
 }
 
 .product-card-image img {
@@ -705,6 +706,46 @@ body {
 }
 
 .product-card:hover .product-card-image img { transform: scale(1.05); }
+
+/* Price badge on product card image */
+.product-price-badge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+.product-price-badge .price-current {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+}
+.product-price-badge .price-current .price-from {
+  font-size: 0.7rem;
+  font-weight: 400;
+  opacity: 0.8;
+}
+.product-price-badge .price-original {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.55);
+  text-decoration: line-through;
+}
+.product-price-badge .discount-tag {
+  background: #E53E3E;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  margin-left: auto;
+}
 
 .product-card-body { padding: 1.5rem; }
 
