@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://customtotebagsupplier.com/sitemap.xml

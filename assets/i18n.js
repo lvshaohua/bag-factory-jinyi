@@ -81,13 +81,13 @@
     'contact_net_error': { 'zh': '网络错误，请稍后重试。', 'en': 'Network error. Please try again.' },
 
     // ===== Index Page =====
-    'index_title': { 'zh': '袋尚工坊 - 上海帆布袋无纺布袋杜邦纸袋批量定制源头厂家', 'en': 'BagCraft Workshop - Custom Canvas/Non-woven/Tyvek Bags Factory Shanghai' },
-    'index_desc': { 'zh': '袋尚工坊位于上海市嘉定区，专业定制帆布袋、无纺布袋、杜邦纸袋。源头工厂直供，小批量100个起订，支持来图来样定制，7天快速交付。', 'en': 'BagCraft Workshop in Jiading, Shanghai. Custom canvas, non-woven and Tyvek bags. Factory direct, 100 pcs MOQ, custom designs welcome, 7-day delivery.' },
+    'index_title': { 'zh': '袋尚工坊 - 上海帆布袋无纺布袋杜邦纸袋批量定制源头厂家', 'en': 'Custom Tote Bag & Recycle Bag Factory | BagCraft Workshop' },
+    'index_desc': { 'zh': '袋尚工坊位于上海市嘉定区，专业定制帆布袋、无纺布袋、杜邦纸袋。源头工厂直供，小批量100个起订，支持来图来样定制，7天快速交付。', 'en': 'Professional custom tote bag, custom recycle bag & custom advertising bag manufacturer in Shanghai. Factory direct, 100 pcs MOQ, custom printing, 7-day delivery.' },
     'index_og_title': { 'zh': '袋尚工坊 - 上海袋类批量定制源头厂家', 'en': 'BagCraft Workshop - Bulk Custom Bag Factory Shanghai' },
     'index_og_desc': { 'zh': '专业定制帆布袋、无纺布袋、杜邦纸袋，小批量100个起订，源头工厂直供', 'en': 'Custom canvas, non-woven & Tyvek bags. 100 pcs MOQ, factory direct from Shanghai.' },
     'index_badge': { 'zh': '上海市嘉定区 · 源头工厂', 'en': 'Jiading, Shanghai · Factory Direct' },
-    'index_hero_h1': { 'zh': '您的品牌，<em>印</em>在每一只袋子上', 'en': 'Your Brand, <em>Printed</em> on Every Bag' },
-    'index_hero_p': { 'zh': '专注帆布袋、无纺布袋、杜邦纸袋的批量定制生产。支持来图来样定制，多种印刷工艺可选，<strong>100个起订</strong>，让品牌传播触手可及。', 'en': 'Specializing in bulk custom canvas, non-woven & Tyvek bags. Send your design, multiple printing options, <strong>100 pcs MOQ</strong>. Make your brand visible everywhere.' },
+    'index_hero_h1': { 'zh': '您的品牌，<em>印</em>在每一只袋子上', 'en': 'Custom Tote Bags & Recycle Bags,<br><em>Made for Your Brand</em>' },
+    'index_hero_p': { 'zh': '专注帆布袋、无纺布袋、杜邦纸袋的批量定制生产。支持来图来样定制，多种印刷工艺可选，<strong>100个起订</strong>，让品牌传播触手可及。', 'en': 'Professional manufacturer of custom tote bags, custom recycle bags & custom advertising bags. OEM/ODM welcome, multiple printing techniques, <strong>100 pcs MOQ</strong>. Factory direct from Shanghai.' },
     'index_btn_quote': { 'zh': '获取报价', 'en': 'Get Quote' },
     'index_btn_browse': { 'zh': '浏览产品', 'en': 'Browse Products' },
     'index_stat_years': { 'zh': '年行业经验', 'en': 'Years Experience' },
@@ -176,7 +176,7 @@
     'news_3_desc': { 'zh': '新增2条自动化生产线，日产能从3000只提升至5000只，大幅缩短交货周期，满足旺季需求。', 'en': 'Two new automated production lines added. Daily capacity increased from 3,000 to 5,000 pcs, significantly shortening lead times.' },
 
     // ===== Products Page =====
-    'products_title': { 'zh': '产品中心 - 帆布袋无纺布袋杜邦纸袋定制 | 袋尚工坊', 'en': 'Products - Custom Canvas/Non-woven/Tyvek Bags | BagCraft Workshop' },
+    'products_title': { 'zh': '产品中心 - 帆布袋无纺布袋杜邦纸袋定制 | 袋尚工坊', 'en': 'Custom Tote Bag, Recycle Bag & Advertising Bag | BagCraft Workshop' },
     'products_desc': { 'zh': '袋尚工坊产品中心：帆布袋、无纺布袋、杜邦纸袋三大品类批量定制。上海市嘉定区源头工厂，100个起订，支持丝印热转印刺绣等多种工艺。', 'en': 'BagCraft Workshop products: canvas, non-woven & Tyvek bags. Jiading Shanghai factory, 100 pcs MOQ, multiple printing techniques.' },
     'products_og_title': { 'zh': '产品中心 - 袋尚工坊', 'en': 'Products - BagCraft Workshop' },
     'products_og_desc': { 'zh': '帆布袋、无纺布袋、杜邦纸袋三大品类批量定制', 'en': 'Three categories of custom bags in bulk quantities.' },
@@ -373,6 +373,20 @@
     'contact_why_4': { 'zh': '多种工艺可选，满足各种设计', 'en': 'Multiple techniques for any design' },
     'contact_why_5': { 'zh': '免费排版设计，效果图确认', 'en': 'Free layout design with mockup approval' },
     'contact_why_6': { 'zh': '出口经验丰富，支持外贸订单', 'en': 'Export experience, foreign trade orders welcome' },
+
+    'products_cta_h2': { 'zh': '不确定选哪种产品？', 'en': 'Not Sure Which Bag to Choose?' },
+    'products_cta_p': { 'zh': '告诉我们您的用途和预算，我们的专业顾问将为您推荐最合适的方案。', 'en': 'Tell us your needs and budget, our consultants will recommend the best solution.' },
+    'products_cta_btn': { 'zh': '免费咨询', 'en': 'Free Consultation' },
+
+    // ===== Media Gallery =====
+    'gallery_tag': { 'zh': '作品展示', 'en': 'Gallery' },
+    'gallery_h2': { 'zh': '工厂实拍与产品展示', 'en': 'Factory & Product Gallery' },
+    'gallery_p': { 'zh': '真实的生产环境和优质的产品实拍，见证我们的专业实力', 'en': 'Real production environment and product shots that showcase our expertise.' },
+    'gallery_tab_all': { 'zh': '全部', 'en': 'All' },
+    'gallery_tab_product': { 'zh': '产品', 'en': 'Products' },
+    'gallery_tab_factory': { 'zh': '工厂', 'en': 'Factory' },
+    'gallery_tab_video': { 'zh': '视频', 'en': 'Videos' },
+    'gallery_close': { 'zh': '关闭', 'en': 'Close' },
   };
 
   // ===================== Language Engine =====================

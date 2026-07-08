@@ -15,13 +15,20 @@ export async function onRequestPost({ request, env }) {
   }
 
   try {
-    const data = await request.json();
-    const { name, country, phone, email, whatsapp, product, quantity, message } = data;
+    const formData = await request.formData();
+    const name = formData.get('name');
+    const country = formData.get('country');
+    const phone = formData.get('phone');
+    const email = formData.get('email');
+    const whatsapp = formData.get('whatsapp');
+    const product = formData.get('product');
+    const quantity = formData.get('quantity');
+    const message = formData.get('message');
 
     // Validate required field
     if (!name || name.trim() === '') {
       return new Response(
-        JSON.stringify({ success: false, error: '称呼不能为空' }),
+        JSON.stringify({ success: false, error: 'Name is required' }),
         { status: 400, headers: corsHeaders }
       );
     }
@@ -29,7 +36,7 @@ export async function onRequestPost({ request, env }) {
     // Insert into D1 database
     await env.DB.prepare(
       `INSERT INTO inquiries (
-        name, country, phone, email, whatsapp, product, quantity, message, 
+        name, country, phone, email, whatsapp, product, quantity, message,
         ip_address, user_agent, created_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))`
     ).bind(
@@ -46,7 +53,7 @@ export async function onRequestPost({ request, env }) {
     ).run();
 
     return new Response(
-      JSON.stringify({ success: true, message: '提交成功，我们将尽快与您联系！' }),
+      JSON.stringify({ success: true, message: 'Thank you! We will contact you soon.' }),
       { status: 200, headers: corsHeaders }
     );
 

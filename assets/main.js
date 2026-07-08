@@ -52,12 +52,12 @@
   // Mobile menu toggle
   const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
   const navLinks = document.querySelector('.nav-links');
-  
+
   if (mobileMenuBtn && navLinks) {
     mobileMenuBtn.addEventListener('click', () => {
       const isExpanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true';
       mobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
-      
+
       if (!isExpanded) {
         navLinks.style.display = 'flex';
         navLinks.style.flexDirection = 'column';
@@ -93,75 +93,46 @@
     <div class="modal-overlay" id="inquiryModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <div class="modal">
         <div class="modal-header">
-          <h2 id="modalTitle" data-i18n="modal_title">立即咨询</h2>
-          <button type="button" class="modal-close" aria-label="关闭弹窗" id="modalClose" data-i18n-aria="modal_close">
+          <h2 id="modalTitle">Get a Free Quote</h2>
+          <button type="button" class="modal-close" aria-label="Close" id="modalClose">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
         <div class="modal-body">
           <form class="modal-form" id="inquiryForm" novalidate>
             <div class="form-group">
-              <label for="inquiryName"><span data-i18n="modal_name">称呼</span> <span class="required-mark" data-i18n="label_required">*</span></label>
-              <input type="text" id="inquiryName" name="name" required placeholder="请输入您的称呼" data-i18n-placeholder="modal_name_ph">
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="inquiryCountry"><span data-i18n="modal_country">国家</span> <span class="label-note" data-i18n="label_optional">（选填）</span></label>
-                <input type="text" id="inquiryCountry" name="country" placeholder="如：中国、美国" data-i18n-placeholder="modal_country_ph">
-              </div>
-              <div class="form-group">
-                <label for="inquiryPhone"><span data-i18n="modal_phone">手机号</span> <span class="label-note" data-i18n="label_optional">（选填）</span></label>
-                <input type="tel" id="inquiryPhone" name="phone" placeholder="您的联系电话" data-i18n-placeholder="modal_phone_ph">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="inquiryEmail"><span data-i18n="modal_email">邮箱</span> <span class="label-note" data-i18n="label_optional">（选填）</span></label>
-                <input type="email" id="inquiryEmail" name="email" placeholder="your@email.com" data-i18n-placeholder="modal_email_ph">
-              </div>
-              <div class="form-group">
-                <label for="inquiryWhatsapp"><span data-i18n="modal_whatsapp">WhatsApp</span> <span class="label-note" data-i18n="label_optional">（选填）</span></label>
-                <input type="text" id="inquiryWhatsapp" name="whatsapp" placeholder="WhatsApp号码" data-i18n-placeholder="modal_whatsapp_ph">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="inquiryProduct"><span data-i18n="modal_product">产品类型</span> <span class="label-note" data-i18n="label_optional">（选填）</span></label>
-                <select id="inquiryProduct" name="product">
-                  <option value="" data-i18n="modal_product_sel">请选择</option>
-                  <option value="帆布袋" data-i18n="modal_canvas">帆布袋</option>
-                  <option value="无纺布袋" data-i18n="modal_nonwoven">无纺布袋</option>
-                  <option value="杜邦纸袋" data-i18n="modal_tyvek">杜邦纸袋</option>
-                  <option value="防水袋" data-i18n="modal_waterproof">防水袋</option>
-                  <option value="其他" data-i18n="modal_other">其他</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="inquiryQuantity"><span data-i18n="modal_quantity">预计数量</span> <span class="label-note" data-i18n="label_optional">（选填）</span></label>
-                <select id="inquiryQuantity" name="quantity">
-                  <option value="" data-i18n="modal_qty_sel">请选择</option>
-                  <option value="100-500" data-i18n="modal_qty_100">100-500个</option>
-                  <option value="500-1000" data-i18n="modal_qty_500">500-1000个</option>
-                  <option value="1000-5000" data-i18n="modal_qty_1000">1000-5000个</option>
-                  <option value="5000+" data-i18n="modal_qty_5000">5000个以上</option>
-                </select>
-              </div>
+              <label for="inquiryName">Name <span class="required-mark">*</span></label>
+              <input type="text" id="inquiryName" name="name" required placeholder="Your name">
             </div>
             <div class="form-group">
-              <label for="inquiryMessage"><span data-i18n="modal_message">需求描述</span> <span class="label-note" data-i18n="label_optional">（选填）</span></label>
-              <textarea id="inquiryMessage" name="message" rows="3" placeholder="请描述您的需求..." data-i18n-placeholder="modal_message_ph"></textarea>
+              <label for="inquiryEmail">Email <span class="required-mark">*</span></label>
+              <input type="email" id="inquiryEmail" name="email" required placeholder="your@email.com">
             </div>
-            <button type="submit" class="btn btn-primary modal-submit" id="modalSubmit" data-i18n="modal_submit">提交咨询</button>
+            <div class="form-group">
+              <label for="inquiryCountry">Country <span class="required-mark">*</span></label>
+              <input type="text" id="inquiryCountry" name="country" required placeholder="e.g. USA, Germany, Australia">
+            </div>
+            <div class="form-group">
+              <label for="inquiryQuantity">Estimated Quantity <span class="required-mark">*</span></label>
+              <select id="inquiryQuantity" name="quantity" required>
+                <option value="">Select quantity</option>
+                <option value="100-500">100-500 pcs</option>
+                <option value="500-1000">500-1,000 pcs</option>
+                <option value="1000-5000">1,000-5,000 pcs</option>
+                <option value="5000+">5,000+ pcs</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary modal-submit" id="modalSubmit">Get a Free Quote</button>
           </form>
           <div class="modal-success" id="modalSuccess" style="display:none;">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            <h3 data-i18n="modal_success_title">提交成功！</h3>
-            <p data-i18n="modal_success_msg">我们将尽快与您联系，请保持联系方式畅通。</p>
+            <h3>Thank you!</h3>
+            <p>We'll contact you within 24 hours with your quote.</p>
           </div>
           <div class="modal-error" id="modalError" style="display:none;">
             <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C45C26" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-            <h3 data-i18n="modal_error_title">提交失败</h3>
-            <p id="modalErrorText" data-i18n="modal_error_msg">请稍后重试，或直接通过电话联系我们。</p>
+            <h3>Submission Failed</h3>
+            <p id="modalErrorText">Submission failed. Please try again or call us directly.</p>
           </div>
         </div>
       </div>
@@ -195,12 +166,12 @@
       modalError.style.display = 'none';
       inquiryForm.reset();
       modalSubmit.disabled = false;
-      modalSubmit.textContent = '提交咨询';
+      modalSubmit.textContent = 'Get a Free Quote';
     }, 300);
   }
 
-  // Bind to all "立即咨询" buttons
-  document.querySelectorAll('.nav-cta, .cta-section .btn').forEach(btn => {
+  // Bind to all CTA buttons (nav CTA, bottom CTA section, hero buttons)
+  document.querySelectorAll('.nav-cta, .cta-section .btn, .hero-buttons .btn-primary.open-modal').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       openModal();
@@ -224,34 +195,31 @@
     e.preventDefault();
 
     const name = document.getElementById('inquiryName').value.trim();
-    if (!name) {
-      document.getElementById('inquiryName').focus();
+    const email = document.getElementById('inquiryEmail').value.trim();
+    const country = document.getElementById('inquiryCountry').value.trim();
+    const quantity = document.getElementById('inquiryQuantity').value;
+
+    if (!name || !email || !country || !quantity) {
+      if (!name) document.getElementById('inquiryName').focus();
+      else if (!email) document.getElementById('inquiryEmail').focus();
+      else if (!country) document.getElementById('inquiryCountry').focus();
+      else document.getElementById('inquiryQuantity').focus();
       return;
     }
 
     modalSubmit.disabled = true;
-    if (window.I18N) {
-      modalSubmit.textContent = window.I18N.t('modal_submitting');
-    } else {
-      modalSubmit.textContent = '提交中...';
-    }
+    modalSubmit.textContent = 'Submitting...';
 
-    const data = {
-      name: name,
-      country: document.getElementById('inquiryCountry').value.trim() || null,
-      phone: document.getElementById('inquiryPhone').value.trim() || null,
-      email: document.getElementById('inquiryEmail').value.trim() || null,
-      whatsapp: document.getElementById('inquiryWhatsapp').value.trim() || null,
-      product: document.getElementById('inquiryProduct').value || null,
-      quantity: document.getElementById('inquiryQuantity').value || null,
-      message: document.getElementById('inquiryMessage').value.trim() || null
-    };
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('country', country);
+    formData.append('quantity', quantity);
 
     try {
       const response = await fetch('/api/inquiry', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: formData
       });
 
       const result = await response.json();
@@ -260,52 +228,187 @@
         inquiryForm.style.display = 'none';
         modalSuccess.style.display = 'block';
       } else {
-        modalErrorText.textContent = result.error || '提交失败，请稍后重试';
+        modalErrorText.textContent = result.error || 'Submission failed. Please try again or call us directly.';
         inquiryForm.style.display = 'none';
         modalError.style.display = 'block';
       }
     } catch (err) {
-      if (window.I18N) {
-        modalErrorText.textContent = window.I18N.t('modal_net_error');
-      } else {
-        modalErrorText.textContent = '网络错误，请稍后重试或直接电话联系。';
-      }
+      modalErrorText.textContent = 'Network error. Please try again or contact us by phone.';
       inquiryForm.style.display = 'none';
       modalError.style.display = 'block';
     }
 
     modalSubmit.disabled = false;
-    if (window.I18N) {
-      modalSubmit.textContent = window.I18N.t('modal_submit');
-    } else {
-      modalSubmit.textContent = '提交咨询';
-    }
+    modalSubmit.textContent = 'Get a Free Quote';
   });
 
-  // Contact page form fallback
+  // Contact page form — unified submission logic (same as modal, uses FormData)
   const contactForm = document.querySelector('.contact-form');
   if (contactForm) {
     contactForm.addEventListener('submit', async function(e) {
       e.preventDefault();
       const formData = new FormData(this);
-      const data = Object.fromEntries(formData.entries());
+
+      // Basic validation
+      const name = formData.get('name');
+      const email = formData.get('email');
+      const country = formData.get('country');
+      const product = formData.get('product');
+      const message = formData.get('message');
+      if (!name || !email || !country || !product || !message) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
 
       try {
         const response = await fetch('/api/inquiry', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
+          body: formData
         });
         const result = await response.json();
-        const successMsg = window.I18N ? window.I18N.t('contact_success') : '提交成功！我们将尽快与您联系。';
-        const failMsg = window.I18N ? window.I18N.t('contact_fail') : '提交失败';
-        const netErrorMsg = window.I18N ? window.I18N.t('contact_net_error') : '网络错误，请稍后重试。';
-        alert(result.success ? successMsg : (result.error || failMsg));
-        if (result.success) this.reset();
+        if (result.success) {
+          alert('Thank you! We\'ll contact you within 24 hours.');
+          this.reset();
+        } else {
+          alert(result.error || 'Submission failed. Please try again or call us directly.');
+        }
       } catch (err) {
-        const netErrorMsg = window.I18N ? window.I18N.t('contact_net_error') : '网络错误，请稍后重试。';
-        alert(netErrorMsg);
+        alert('Network error. Please try again or contact us by phone.');
       }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
     });
   }
+
+  // ===== Media Gallery Tabs =====
+  const mediaTabs = document.querySelectorAll('.media-tab');
+  const mediaPanels = document.querySelectorAll('.media-panel');
+
+  mediaTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.getAttribute('data-tab');
+      mediaTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      mediaPanels.forEach(p => {
+        p.classList.toggle('active', p.getAttribute('data-panel') === target);
+      });
+    });
+  });
+
+  // ===== Lightbox =====
+  const lightbox = document.getElementById('lightbox');
+  const lightboxMedia = document.getElementById('lightboxMedia');
+  const lightboxCaption = document.getElementById('lightboxCaption');
+  const lightboxClose = document.getElementById('lightboxClose');
+
+  function openLightbox(src, type, label) {
+    lightboxMedia.innerHTML = '';
+    if (type === 'video') {
+      const video = document.createElement('video');
+      video.src = src;
+      video.controls = true;
+      video.autoplay = true;
+      video.style.maxWidth = '90vw';
+      video.style.maxHeight = '85vh';
+      lightboxMedia.appendChild(video);
+    } else {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = label || '';
+      lightboxMedia.appendChild(img);
+    }
+    lightboxCaption.textContent = label || '';
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+    const video = lightboxMedia.querySelector('video');
+    if (video) {
+      video.pause();
+      video.src = '';
+    }
+    lightboxMedia.innerHTML = '';
+  }
+
+  document.querySelectorAll('.media-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const src = item.getAttribute('data-src');
+      const type = item.getAttribute('data-type');
+      const label = item.getAttribute('data-label');
+      openLightbox(src, type, label);
+    });
+  });
+
+  if (lightboxClose) {
+    lightboxClose.addEventListener('click', closeLightbox);
+  }
+
+  if (lightbox) {
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox && lightbox.classList.contains('active')) {
+      closeLightbox();
+    }
+  });
+
+  // ===== Amazon-style Image Gallery (hover to swap main image) =====
+  document.querySelectorAll('.product-gallery-amazon').forEach(gallery => {
+    const mainImg = gallery.querySelector('.gallery-main img');
+    const thumbs = gallery.querySelectorAll('.gallery-thumb');
+    if (!mainImg || thumbs.length === 0) return;
+
+    const originalSrc = mainImg.src;
+    const originalAlt = mainImg.alt;
+
+    thumbs.forEach(thumb => {
+      // Hover: swap main image
+      thumb.addEventListener('mouseenter', () => {
+        const thumbImg = thumb.querySelector('img');
+        if (!thumbImg) return;
+        mainImg.classList.add('fade-out');
+        setTimeout(() => {
+          mainImg.src = thumbImg.src;
+          mainImg.alt = thumbImg.alt || originalAlt;
+          mainImg.classList.remove('fade-out');
+        }, 150);
+        thumbs.forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+      });
+
+      // Click: also swap (for mobile/touch)
+      thumb.addEventListener('click', () => {
+        const thumbImg = thumb.querySelector('img');
+        if (!thumbImg) return;
+        mainImg.src = thumbImg.src;
+        mainImg.alt = thumbImg.alt || originalAlt;
+        thumbs.forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+      });
+    });
+
+    // Mouse leaves gallery: restore original image
+    gallery.addEventListener('mouseleave', () => {
+      mainImg.classList.add('fade-out');
+      setTimeout(() => {
+        mainImg.src = originalSrc;
+        mainImg.alt = originalAlt;
+        mainImg.classList.remove('fade-out');
+      }, 150);
+      thumbs.forEach(t => t.classList.remove('active'));
+      if (thumbs[0]) thumbs[0].classList.add('active');
+    });
+  });
 })();
