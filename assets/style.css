@@ -695,7 +695,6 @@ body {
   aspect-ratio: 1;
   overflow: hidden;
   background: var(--bg);
-  position: relative;
 }
 
 .product-card-image img {
@@ -707,47 +706,99 @@ body {
 
 .product-card:hover .product-card-image img { transform: scale(1.05); }
 
-/* Price badge on product card image */
-.product-price-badge {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0,0,0,0.75);
-  backdrop-filter: blur(4px);
-  color: #fff;
-  padding: 0.5rem 0.75rem;
+/* ===== Amazon-style Price in Card Body ===== */
+.product-card-body { padding: 1.5rem; }
+
+.product-card-price {
+  margin: 0.75rem 0 0.5rem;
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: 0.5rem;
-  font-size: 0.8rem;
+  gap: 0.35rem;
 }
-.product-price-badge .price-current {
-  font-size: 1.15rem;
+.product-card-price .price-current {
+  font-size: 1.35rem;
   font-weight: 700;
-  color: #fff;
+  color: #1a1a1a;
+  letter-spacing: -0.02em;
 }
-.product-price-badge .price-current .price-from {
-  font-size: 0.7rem;
-  font-weight: 400;
-  opacity: 0.8;
+.product-card-price .price-current .price-currency {
+  font-size: 0.85rem;
+  font-weight: 600;
+  vertical-align: super;
+  margin-right: 0.05em;
 }
-.product-price-badge .price-original {
-  font-size: 0.8rem;
-  color: rgba(255,255,255,0.55);
+.product-card-price .price-original {
+  font-size: 0.9rem;
+  color: #767676;
   text-decoration: line-through;
 }
-.product-price-badge .discount-tag {
+.product-card-price .price-unit {
+  font-size: 0.8rem;
+  color: #767676;
+  margin-left: 0.15rem;
+}
+.product-card-price .discount-tag {
   background: #E53E3E;
   color: #fff;
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  padding: 0.15rem 0.4rem;
-  border-radius: 3px;
-  margin-left: auto;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+}
+.product-card-price .price-limited {
+  font-size: 0.75rem;
+  color: #B7791F;
+  font-weight: 600;
+  width: 100%;
+  margin-top: 0.15rem;
 }
 
-.product-card-body { padding: 1.5rem; }
+/* Detail page price block */
+.detail-price-block {
+  background: #FFF5F5;
+  border: 1px solid #FED7D7;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.detail-price-block .price-current {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #C53030;
+}
+.detail-price-block .price-current .price-currency {
+  font-size: 1rem;
+  font-weight: 600;
+  vertical-align: super;
+}
+.detail-price-block .price-original {
+  font-size: 1rem;
+  color: #767676;
+  text-decoration: line-through;
+}
+.detail-price-block .price-unit {
+  font-size: 0.85rem;
+  color: #767676;
+}
+.detail-price-block .discount-tag {
+  background: #C53030;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+.detail-price-block .price-limited {
+  font-size: 0.8rem;
+  color: #B7791F;
+  font-weight: 600;
+  width: 100%;
+}
 
 .product-card h3 {
   font-size: 1.1rem;
