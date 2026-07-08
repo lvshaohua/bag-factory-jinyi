@@ -2197,3 +2197,100 @@ body {
   .media-tab { padding: 0.55rem 1.25rem; font-size: 0.85rem; }
   .media-tabs { gap: 0.5rem; margin-bottom: 2rem; }
 }
+
+/* ===== Eco / Sustainability Section ===== */
+.eco-section {
+  background: var(--bg2);
+  padding: 5rem 0;
+}
+.eco-section .section-header h2 {
+  color: #2D6A4F;
+}
+.eco-section .section-header p {
+  color: #52796F;
+}
+.eco-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+.eco-card {
+  background: #fff;
+  border: 1px solid #D8F3DC;
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.eco-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(45, 106, 79, 0.12);
+}
+.eco-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 1rem;
+  background: #D8F3DC;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2D6A4F;
+}
+.eco-card h3 {
+  font-size: 1rem;
+  color: #1B4332;
+  margin-bottom: 0.5rem;
+}
+.eco-card p {
+  font-size: 0.85rem;
+  color: #52796F;
+  line-height: 1.5;
+}
+.eco-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #D8F3DC;
+  color: #2D6A4F;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.eco-badge svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Eco highlight in desc sections */
+.desc-eco-highlight {
+  background: #F0F9F4;
+  border-left: 4px solid #2D6A4F;
+  border-radius: 0 8px 8px 0;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+}
+.desc-eco-highlight h4 {
+  color: #1B4332;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.desc-eco-highlight p {
+  color: #52796F;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .eco-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .eco-grid { grid-template-columns: 1fr; }
+}
