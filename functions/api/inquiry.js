@@ -65,23 +65,3 @@ export async function onRequestPost({ request, env }) {
   }
 }
 
-export async function onRequestGet({ env }) {
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json'
-  };
-
-  try {
-    const { results } = await env.DB.prepare(
-      `SELECT id, name, country, phone, email, whatsapp, product, quantity, message, created_at 
-       FROM inquiries ORDER BY created_at DESC LIMIT 100`
-    ).all();
-
-    return new Response(JSON.stringify(results), { headers: corsHeaders });
-  } catch (err) {
-    return new Response(
-      JSON.stringify({ error: err.message }),
-      { status: 500, headers: corsHeaders }
-    );
-  }
-}

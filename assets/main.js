@@ -105,8 +105,12 @@
               <input type="text" id="inquiryName" name="name" required placeholder="Your name">
             </div>
             <div class="form-group">
-              <label for="inquiryEmail">Email <span class="required-mark">*</span></label>
-              <input type="email" id="inquiryEmail" name="email" required placeholder="your@email.com">
+              <label for="inquiryEmail">Email</label>
+              <input type="email" id="inquiryEmail" name="email" placeholder="your@email.com">
+            </div>
+            <div class="form-group">
+              <label for="inquiryWhatsapp">WhatsApp / Phone</label>
+              <input type="text" id="inquiryWhatsapp" name="whatsapp" placeholder="+86 123 4567 8900">
             </div>
             <div class="form-group">
               <label for="inquiryCountry">Country <span class="required-mark">*</span></label>
@@ -196,13 +200,15 @@
 
     const name = document.getElementById('inquiryName').value.trim();
     const email = document.getElementById('inquiryEmail').value.trim();
+    const whatsappInput = document.getElementById('inquiryWhatsapp');
+    const whatsapp = whatsappInput ? whatsappInput.value.trim() : '';
     const country = document.getElementById('inquiryCountry').value.trim();
     const quantity = document.getElementById('inquiryQuantity').value;
 
-    if (!name || !email || !country || !quantity) {
+    if (!name || !country || !quantity || (!email && !whatsapp)) {
       if (!name) document.getElementById('inquiryName').focus();
-      else if (!email) document.getElementById('inquiryEmail').focus();
       else if (!country) document.getElementById('inquiryCountry').focus();
+      else if (!email && !whatsapp) { document.getElementById('inquiryEmail').focus(); alert('Please provide at least Email or WhatsApp/Phone'); }
       else document.getElementById('inquiryQuantity').focus();
       return;
     }
@@ -213,6 +219,7 @@
     const formData = new FormData();
     formData.append('name', name);
     formData.append('email', email);
+    formData.append('whatsapp', whatsapp);
     formData.append('country', country);
     formData.append('quantity', quantity);
 
@@ -255,7 +262,8 @@
       const country = formData.get('country');
       const product = formData.get('product');
       const message = formData.get('message');
-      if (!name || !email || !country || !product || !message) {
+      const whatsapp = formData.get('whatsapp');
+      if (!name || !country || !product || !message || (!email && !whatsapp)) {
         alert('Please fill in all required fields.');
         return;
       }
