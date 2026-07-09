@@ -734,48 +734,73 @@ body {
   flex-direction: column;
 }
 
-.product-card-price {
-  margin: 0.5rem 0;
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-}
-
 /* Push card-footer (tag + button) to bottom of card */
 .card-footer {
   margin-top: auto;
   padding-top: 0.75rem;
 }
-.product-card-price .price-current {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--ink);
-  letter-spacing: -0.03em;
-}
-.product-card-price .price-original {
-  font-size: 0.85rem;
-  color: #bbb;
-  text-decoration: line-through;
-}
 
-/* Detail page price — one clean line */
-.detail-price-block {
-  display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-  padding: 1rem 0 0.75rem;
-  border-bottom: 1px solid var(--rule);
-  margin-bottom: 1rem;
+/* ===== Card Price — Prominent Bulk Pricing ===== */
+.product-card-price {
+  margin: 0.6rem 0;
 }
-.detail-price-block .price-current {
-  font-size: 1.75rem;
+.product-card-price .price-from-label {
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.15rem;
+}
+.product-card-price .price-current {
+  font-size: 1.5rem;
   font-weight: 800;
   color: var(--ink);
   letter-spacing: -0.04em;
 }
+.product-card-price .price-original {
+  font-size: 0.9rem;
+  color: #999;
+  text-decoration: line-through;
+  margin-left: 0.4rem;
+}
+.product-card-price .price-qty-note {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 0.2rem;
+  display: block;
+}
+
+/* ===== Detail Page Price Block ===== */
+.detail-price-block {
+  padding: 1.25rem 0 1rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 1rem;
+}
+.detail-price-block .price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.detail-price-block .price-from-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.detail-price-block .price-current {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
 .detail-price-block .price-original {
-  font-size: 0.95rem;
-  color: #bbb;
+  font-size: 1rem;
+  color: #999;
   text-decoration: line-through;
 }
 .detail-price-block .discount-pill {
@@ -784,16 +809,74 @@ body {
   background: linear-gradient(135deg, #C45C26, #A84D1F);
   color: #fff;
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 700;
   padding: 0.25rem 0.65rem;
   border-radius: 4px;
   letter-spacing: 0.02em;
   text-transform: uppercase;
 }
-.detail-price-block .price-note {
+.detail-price-block .price-qty-note {
   font-size: 0.8rem;
   color: var(--muted);
-  margin-left: auto;
+  margin-top: 0.4rem;
+}
+
+/* Volume pricing table */
+.volume-pricing {
+  margin: 1.5rem 0;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.volume-pricing h4 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+  padding: 0.75rem 1rem;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--rule);
+  margin: 0;
+}
+.volume-pricing table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.volume-pricing th,
+.volume-pricing td {
+  padding: 0.6rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+.volume-pricing th {
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.volume-pricing td {
+  color: var(--ink);
+}
+.volume-pricing tr:last-child td {
+  border-bottom: none;
+}
+.volume-pricing .price-highlight {
+  font-weight: 700;
+  color: var(--accent);
+}
+.volume-pricing .price-lowest {
+  background: #FFF8F0;
+}
+.volume-pricing .badge-lowest {
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+  margin-left: 0.5rem;
 }
 
 .product-card h3 {
