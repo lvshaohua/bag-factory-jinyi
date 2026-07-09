@@ -682,6 +682,8 @@ body {
   overflow: hidden;
   transition: all 0.3s ease;
   border: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
 }
 
 .product-card:hover {
@@ -725,13 +727,23 @@ body {
 .product-card:hover .product-card-image img { transform: scale(1.05); }
 
 /* ===== Price in Card Body — Clean & Simple ===== */
-.product-card-body { padding: 1.5rem; }
+.product-card-body {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
 
 .product-card-price {
   margin: 0.5rem 0;
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
+}
+
+/* Push View Details button to bottom of card */
+.product-card-body > div:last-child {
+  margin-top: auto;
 }
 .product-card-price .price-current {
   font-size: 1.25rem;
