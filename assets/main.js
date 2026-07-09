@@ -448,11 +448,7 @@
         // Step 2: preload full image, then swap when ready
         const preload = new Image();
         preload.onload = function() {
-          mainImg.classList.add('fade-out');
-          setTimeout(() => {
-            mainImg.src = fullSrc;
-            mainImg.classList.remove('fade-out');
-          }, 150);
+          mainImg.src = fullSrc;
         };
         preload.src = fullSrc;
       });
