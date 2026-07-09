@@ -432,21 +432,29 @@
     }
 
     thumbs.forEach(thumb => {
-      // Hover: swap main image with FULL image (not thumb)
+      // Hover: instantly show thumb, then load full image
       thumb.addEventListener('mouseenter', () => {
         const thumbImg = thumb.querySelector('img');
         if (!thumbImg) return;
 
         const fullSrc = thumbImg.dataset.full || thumbImg.src;
 
-        mainImg.classList.add('fade-out');
-        setTimeout(() => {
-          mainImg.src = fullSrc;
-          mainImg.alt = thumbImg.alt;
-          mainImg.classList.remove('fade-out');
-        }, 150);
+        // Step 1: instantly swap to thumbnail (no delay)
+        mainImg.src = thumbImg.src;
+        mainImg.alt = thumbImg.alt;
         thumbs.forEach(t => t.classList.remove('active'));
         thumb.classList.add('active');
+
+        // Step 2: preload full image, then swap when ready
+        const preload = new Image();
+        preload.onload = function() {
+          mainImg.classList.add('fade-out');
+          setTimeout(() => {
+            mainImg.src = fullSrc;
+            mainImg.classList.remove('fade-out');
+          }, 150);
+        };
+        preload.src = fullSrc;
       });
 
       // Click: also swap (for mobile/touch)
