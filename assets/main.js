@@ -247,9 +247,54 @@
 
     modalSubmit.disabled = false;
     modalSubmit.textContent = 'Get a Free Quote';
+  }); // end addEventListener submit
+
+  // Image lightbox — hover loads full image, click opens fullscreen
+  const lightboxHTML = '<div class="lightbox-overlay" id="imageLightbox"><button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button><img src="" alt="" id="lightboxImg"></div>';
+  document.body.insertAdjacentHTML('beforeend', lightboxHTML);
+
+  const lightbox = document.getElementById('imageLightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxClose = document.getElementById('lightboxClose');
+
+  function openLightbox(src, alt) {
+    lightboxImg.src = src;
+    lightboxImg.alt = alt;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    lightboxImg.src = '';
+    document.body.style.overflow = '';
+  }
+
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', function(e) {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
   });
 
-  // Contact page form — unified submission logic (same as modal, uses FormData)
+  // Lazy thumb: hover loads full, click opens lightbox
+  document.querySelectorAll('img.lazy-thumb').forEach(function(img) {
+    img.addEventListener('mouseenter', function() {
+      var full = this.dataset.full;
+      if (full && this.src !== full) {
+        this.src = full;
+        this.style.cursor = 'zoom-in';
+      }
+    });
+    img.addEventListener('click', function() {
+      var src = this.dataset.full || this.src;
+      openLightbox(src, this.alt);
+    });
+  });
+
+})();
+
+// Contact page form — unified submission logic (same as modal, uses FormData)
   const contactForm = document.querySelector('.contact-form');
   if (contactForm) {
     contactForm.addEventListener('submit', async function(e) {
@@ -419,4 +464,3 @@
       if (thumbs[0]) thumbs[0].classList.add('active');
     });
   });
-})();
