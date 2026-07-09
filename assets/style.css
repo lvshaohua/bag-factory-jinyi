@@ -741,9 +741,10 @@ body {
   gap: 0.5rem;
 }
 
-/* Push View Details button to bottom of card */
-.product-card-body > div:last-child {
+/* Push card-footer (tag + button) to bottom of card */
+.card-footer {
   margin-top: auto;
+  padding-top: 0.75rem;
 }
 .product-card-price .price-current {
   font-size: 1.25rem;
