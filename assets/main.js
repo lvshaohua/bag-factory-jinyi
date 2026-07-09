@@ -423,18 +423,26 @@
     const thumbs = gallery.querySelectorAll('.gallery-thumb');
     if (!mainImg || thumbs.length === 0) return;
 
-    const originalSrc = mainImg.src;
-    const originalAlt = mainImg.alt;
+    // On load: select first thumb, load full image for main
+    if (thumbs[0]) {
+      thumbs[0].classList.add('active');
+      const firstThumbImg = thumbs[0].querySelector('img');
+      const firstFull = firstThumbImg ? firstThumbImg.dataset.full : null;
+      if (firstFull) mainImg.src = firstFull;
+    }
 
     thumbs.forEach(thumb => {
-      // Hover: swap main image
+      // Hover: swap main image with FULL image (not thumb)
       thumb.addEventListener('mouseenter', () => {
         const thumbImg = thumb.querySelector('img');
         if (!thumbImg) return;
+
+        const fullSrc = thumbImg.dataset.full || thumbImg.src;
+
         mainImg.classList.add('fade-out');
         setTimeout(() => {
-          mainImg.src = thumbImg.src;
-          mainImg.alt = thumbImg.alt || originalAlt;
+          mainImg.src = fullSrc;
+          mainImg.alt = thumbImg.alt;
           mainImg.classList.remove('fade-out');
         }, 150);
         thumbs.forEach(t => t.classList.remove('active'));
@@ -445,22 +453,15 @@
       thumb.addEventListener('click', () => {
         const thumbImg = thumb.querySelector('img');
         if (!thumbImg) return;
-        mainImg.src = thumbImg.src;
-        mainImg.alt = thumbImg.alt || originalAlt;
+
+        const fullSrc = thumbImg.dataset.full || thumbImg.src;
+
+        mainImg.src = fullSrc;
+        mainImg.alt = thumbImg.alt;
         thumbs.forEach(t => t.classList.remove('active'));
         thumb.classList.add('active');
       });
     });
 
-    // Mouse leaves gallery: restore original image
-    gallery.addEventListener('mouseleave', () => {
-      mainImg.classList.add('fade-out');
-      setTimeout(() => {
-        mainImg.src = originalSrc;
-        mainImg.alt = originalAlt;
-        mainImg.classList.remove('fade-out');
-      }, 150);
-      thumbs.forEach(t => t.classList.remove('active'));
-      if (thumbs[0]) thumbs[0].classList.add('active');
-    });
+    // No mouseleave reset — keep last hovered image active
   });
