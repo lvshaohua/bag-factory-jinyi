@@ -20,6 +20,7 @@ export async function onRequestPost({ request, env }) {
     const country = formData.get('country');
     const email = formData.get('email');
     const phone = formData.get('phone');
+    const lang = formData.get('lang');
     const productType = formData.get('productType');
     const quantity = formData.get('quantity');
     const message = formData.get('message');
@@ -47,14 +48,15 @@ export async function onRequestPost({ request, env }) {
     // Insert into D1 database
     await env.DB.prepare(
       `INSERT INTO inquiries (
-        name, country, email, phone, product_type, quantity, message,
+        name, country, email, phone, lang, product_type, quantity, message,
         ip_address, user_agent, created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))`
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))`
     ).bind(
       name.trim(),
       country.trim(),
       email.trim(),
       phone || null,
+      lang || 'en',
       productType || null,
       quantity || null,
       message || null,

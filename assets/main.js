@@ -142,6 +142,7 @@
               <label for="inquiryMessage">Message</label>
               <textarea id="inquiryMessage" name="message" rows="3" placeholder="Describe your needs: size, print content, etc."></textarea>
             </div>
+            <input type="hidden" id="inquiryLang" name="lang" value="en">
             <button type="submit" class="btn btn-primary modal-submit" id="modalSubmit">Get a Free Quote</button>
           </form>
           <div class="modal-success" id="modalSuccess" style="display:none;">
@@ -171,6 +172,14 @@
   const modalSubmit = document.getElementById('modalSubmit');
 
   function openModal() {
+    // Detect current language from URL path
+    const path = window.location.pathname;
+    let lang = 'en';
+    if (path.startsWith('/es/')) lang = 'es';
+    else if (path.startsWith('/fr/')) lang = 'fr';
+    else if (path.startsWith('/de/')) lang = 'de';
+    document.getElementById('inquiryLang').value = lang;
+
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
     document.getElementById('inquiryName').focus();
