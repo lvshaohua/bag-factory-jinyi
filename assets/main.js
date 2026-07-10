@@ -224,39 +224,19 @@
       return;
     }
 
-    modalSubmit.disabled = true;
-    modalSubmit.textContent = 'Submitting...';
+    // Build email body and open mailto
+    const subject = encodeURIComponent('Inquiry from ' + name);
+    let body = 'Name: ' + name + '\nCountry: ' + country + '\nEmail: ' + email;
+    if (productType) body += '\nProduct Type: ' + productType;
+    if (quantity) body += '\nQuantity: ' + quantity;
+    if (message) body += '\nMessage: ' + message;
+    body = encodeURIComponent(body);
 
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('email', email);
-    formData.append('country', country);
-    if (productType) formData.append('productType', productType);
-    if (quantity) formData.append('quantity', quantity);
-    if (message) formData.append('message', message);
+    window.location.href = 'mailto:sales@customtotebagsupplier.com?subject=' + subject + '&body=' + body;
 
-    try {
-      const response = await fetch('/api/inquiry', {
-        method: 'POST',
-        body: formData
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        inquiryForm.style.display = 'none';
-        modalSuccess.style.display = 'block';
-      } else {
-        modalErrorText.textContent = result.error || 'Submission failed. Please try again or call us directly.';
-        inquiryForm.style.display = 'none';
-        modalError.style.display = 'block';
-      }
-    } catch (err) {
-      modalErrorText.textContent = 'Network error. Please try again or contact us by phone.';
-      inquiryForm.style.display = 'none';
-      modalError.style.display = 'block';
-    }
-
+    // Show success
+    inquiryForm.style.display = 'none';
+    modalSuccess.style.display = 'block';
     modalSubmit.disabled = false;
     modalSubmit.textContent = 'Get a Free Quote';
   }); // end addEventListener submit
@@ -310,45 +290,35 @@
 
 })();
 
-// Contact page form — unified submission logic (same as modal, uses FormData)
+// Contact page form — unified submission logic (uses mailto, no backend required)
   const contactForm = document.querySelector('.contact-form');
   if (contactForm) {
-    contactForm.addEventListener('submit', async function(e) {
+    contactForm.addEventListener('submit', function(e) {
       e.preventDefault();
-      const formData = new FormData(this);
 
-      // Basic validation: name, country, email are required
-      const name = formData.get('name');
-      const email = formData.get('email');
-      const country = formData.get('country');
+      const name = this.querySelector('#name').value.trim();
+      const email = this.querySelector('#email').value.trim();
+      const country = this.querySelector('#country').value.trim();
+
       if (!name || !country || !email) {
         alert('Please fill in all required fields: Name, Country, Email.');
         return;
       }
 
-      const submitBtn = this.querySelector('button[type="submit"]');
-      const originalText = submitBtn.textContent;
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Submitting...';
+      const productType = this.querySelector('#productType') ? this.querySelector('#productType').value : '';
+      const quantity = this.querySelector('#quantity') ? this.querySelector('#quantity').value : '';
+      const message = this.querySelector('#message') ? this.querySelector('#message').value.trim() : '';
 
-      try {
-        const response = await fetch('/api/inquiry', {
-          method: 'POST',
-          body: formData
-        });
-        const result = await response.json();
-        if (result.success) {
-          alert('Thank you! We\'ll contact you within 24 hours.');
-          this.reset();
-        } else {
-          alert(result.error || 'Submission failed. Please try again or call us directly.');
-        }
-      } catch (err) {
-        alert('Network error. Please try again or contact us by phone.');
-      }
+      const subject = encodeURIComponent('Inquiry from ' + name);
+      let body = 'Name: ' + name + '\nCountry: ' + country + '\nEmail: ' + email;
+      if (productType) body += '\nProduct Type: ' + productType;
+      if (quantity) body += '\nQuantity: ' + quantity;
+      if (message) body += '\nMessage: ' + message;
+      body = encodeURIComponent(body);
 
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
+      window.location.href = 'mailto:sales@customtotebagsupplier.com?subject=' + subject + '&body=' + body;
+
+      alert('Your email client will open with the inquiry details. We will respond within 24 hours!');
     });
   }
 
