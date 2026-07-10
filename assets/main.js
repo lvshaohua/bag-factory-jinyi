@@ -326,89 +326,133 @@
 
 })();
 
-// ===== Language Suggestion Popup =====
+// ===== Language Suggestion Popup (frontend IP detection) =====
 (function() {
-  const lang = window.SUGGESTED_LANG;
-  const country = window.SUGGESTED_COUNTRY;
-  if (!lang || !country) return;
+  // Only on root page, skip sub-language pages
+  if (window.location.pathname !== '/') return;
 
   // Already has preference cookie?
   if (document.cookie.includes('preferred_lang=') || document.cookie.includes('lang_dismissed=')) {
+    // If preferred_lang cookie exists, redirect
+    var m = document.cookie.match(/(?:^|;\s*)preferred_lang=(es|fr|de)/);
+    if (m) { window.location.href = '/' + m[1] + '/'; }
     return;
   }
 
-  const langNames = { es: 'Español', fr: 'Français', de: 'Deutsch' };
-  const langName = langNames[lang] || lang;
+  var COUNTRY_LANG = {
+    ES:'es',MX:'es',AR:'es',CO:'es',CL:'es',PE:'es',VE:'es',EC:'es',GT:'es',
+    CU:'es',BO:'es',DO:'es',HN:'es',PY:'es',SV:'es',NI:'es',CR:'es',PA:'es',UY:'es',GQ:'es',
+    FR:'fr',BE:'fr',LU:'fr',MC:'fr',SN:'fr',CI:'fr',ML:'fr',BF:'fr',NE:'fr',TD:'fr',
+    GN:'fr',BI:'fr',DJ:'fr',RW:'fr',MG:'fr',KM:'fr',CG:'fr',CD:'fr',
+    DE:'de',AT:'de',CH:'de',LI:'de'
+  };
 
-  const overlay = document.createElement('div');
-  overlay.id = 'langSuggestOverlay';
-  overlay.innerHTML = `
-    <div class="lang-suggest-modal">
-      <div class="lang-suggest-icon">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C45C26" stroke-width="1.5">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M2 12h20"/>
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-        </svg>
-      </div>
-      <h3>Switch Language?</h3>
-      <p>We detected you may be visiting from <strong>${country}</strong>.</p>
-      <p>Would you like to view this site in <strong>${langName}</strong>?</p>
-      <div class="lang-suggest-buttons">
-        <button class="btn btn-primary" id="langSwitchBtn">Switch to ${langName}</button>
-        <button class="btn btn-secondary" id="langStayBtn">Stay in English</button>
-      </div>
-    </div>
-  `;
+  var COUNTRY_NAMES = {
+    ES:'Spain',MX:'Mexico',AR:'Argentina',CO:'Colombia',CL:'Chile',PE:'Peru',
+    VE:'Venezuela',EC:'Ecuador',GT:'Guatemala',CU:'Cuba',BO:'Bolivia',DO:'Dominican Republic',
+    HN:'Honduras',PY:'Paraguay',SV:'El Salvador',NI:'Nicaragua',CR:'Costa Rica',PA:'Panama',UY:'Uruguay',GQ:'Equatorial Guinea',
+    FR:'France',BE:'Belgium',LU:'Luxembourg',MC:'Monaco',SN:'Senegal',CI:'Ivory Coast',
+    ML:'Mali',BF:'Burkina Faso',NE:'Niger',TD:'Chad',GN:'Guinea',BI:'Burundi',
+    DJ:'Djibouti',RW:'Rwanda',MG:'Madagascar',KM:'Comoros',CG:'Congo',CD:'DR Congo',
+    DE:'Germany',AT:'Austria',CH:'Switzerland',LI:'Liechtenstein'
+  };
 
-  const style = document.createElement('style');
-  style.textContent = `
-    #langSuggestOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;display:flex;align-items:center;justify-content:center;animation:fadeIn .25s ease}
-    .lang-suggest-modal{background:#fff;border-radius:12px;padding:32px 28px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideUp .3s ease}
-    .lang-suggest-icon{margin-bottom:16px}
-    .lang-suggest-modal h3{font-size:1.5rem;margin:0 0 12px;color:#1a1a1a}
-    .lang-suggest-modal p{margin:6px 0;color:#555;line-height:1.5}
-    .lang-suggest-buttons{display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap}
-    .lang-suggest-buttons .btn{padding:12px 24px;border-radius:8px;font-size:1rem;cursor:pointer;border:none;transition:opacity .2s}
-    .lang-suggest-buttons .btn-primary{background:#C45C26;color:#fff}
-    .lang-suggest-buttons .btn-secondary{background:#f0f0f0;color:#333}
-    .lang-suggest-buttons .btn:hover{opacity:.85}
-    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-    @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-  `;
+  var langNames = { es: 'Español', fr: 'Français', de: 'Deutsch' };
 
-  document.head.appendChild(style);
-  document.body.appendChild(overlay);
+  // Detect country via free API (cloudflare fallback)
+  fetch('https://ipapi.co/json/').then(function(r){ return r.json(); }).then(function(data){
+    var cc = (data.country_code || '').toUpperCase();
+    var lang = COUNTRY_LANG[cc];
+    if (!lang) return;
 
-  function dismiss() {
-    overlay.remove();
-    style.remove();
+    var country = COUNTRY_NAMES[cc] || data.country_name || cc;
+    var langName = langNames[lang] || lang;
+
+    // Double-check cookie wasn't set during async call
+    if (document.cookie.includes('preferred_lang=') || document.cookie.includes('lang_dismissed=')) return;
+
+    showPopup(lang, country, langName);
+  }).catch(function(){
+    // API failed, try Cloudflare trace as fallback
+    fetch('https://www.cloudflare.com/cdn-cgi/trace').then(function(r){ return r.text(); }).then(function(text){
+      var m = text.match(/loc=([A-Z]{2})/);
+      if (!m) return;
+      var cc = m[1];
+      var lang = COUNTRY_LANG[cc];
+      if (!lang) return;
+      var country = COUNTRY_NAMES[cc] || cc;
+      var langName = langNames[lang] || lang;
+      if (document.cookie.includes('preferred_lang=') || document.cookie.includes('lang_dismissed=')) return;
+      showPopup(lang, country, langName);
+    }).catch(function(){});
+  });
+
+  function showPopup(lang, country, langName) {
+    var overlay = document.createElement('div');
+    overlay.id = 'langSuggestOverlay';
+    overlay.innerHTML =
+      '<div class="lang-suggest-modal">' +
+        '<div class="lang-suggest-icon">' +
+          '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C45C26" stroke-width="1.5">' +
+            '<circle cx="12" cy="12" r="10"/>' +
+            '<path d="M2 12h20"/>' +
+            '<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>' +
+          '</svg>' +
+        '</div>' +
+        '<h3>Switch Language?</h3>' +
+        '<p>We detected you may be visiting from <strong>' + country + '</strong>.</p>' +
+        '<p>Would you like to view this site in <strong>' + langName + '</strong>?</p>' +
+        '<div class="lang-suggest-buttons">' +
+          '<button class="btn btn-primary" id="langSwitchBtn">Switch to ' + langName + '</button>' +
+          '<button class="btn btn-secondary" id="langStayBtn">Stay in English</button>' +
+        '</div>' +
+      '</div>';
+
+    var style = document.createElement('style');
+    style.textContent =
+      '#langSuggestOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;display:flex;align-items:center;justify-content:center;animation:fadeIn .25s ease}' +
+      '.lang-suggest-modal{background:#fff;border-radius:12px;padding:32px 28px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideUp .3s ease}' +
+      '.lang-suggest-icon{margin-bottom:16px}' +
+      '.lang-suggest-modal h3{font-size:1.5rem;margin:0 0 12px;color:#1a1a1a}' +
+      '.lang-suggest-modal p{margin:6px 0;color:#555;line-height:1.5}' +
+      '.lang-suggest-buttons{display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap}' +
+      '.lang-suggest-buttons .btn{padding:12px 24px;border-radius:8px;font-size:1rem;cursor:pointer;border:none;transition:opacity .2s}' +
+      '.lang-suggest-buttons .btn-primary{background:#C45C26;color:#fff}' +
+      '.lang-suggest-buttons .btn-secondary{background:#f0f0f0;color:#333}' +
+      '.lang-suggest-buttons .btn:hover{opacity:.85}' +
+      '@keyframes fadeIn{from{opacity:0}to{opacity:1}}' +
+      '@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}';
+
+    document.head.appendChild(style);
+    document.body.appendChild(overlay);
+
+    function dismiss() { overlay.remove(); style.remove(); }
+
+    document.getElementById('langSwitchBtn').addEventListener('click', function() {
+      document.cookie = 'preferred_lang=' + lang + '; Path=/; Max-Age=604800; SameSite=Lax';
+      window.location.href = '/' + lang + '/';
+    });
+
+    document.getElementById('langStayBtn').addEventListener('click', function() {
+      document.cookie = 'lang_dismissed=1; Path=/; Max-Age=604800; SameSite=Lax';
+      dismiss();
+    });
+
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) {
+        document.cookie = 'lang_dismissed=1; Path=/; Max-Age=604800; SameSite=Lax';
+        dismiss();
+      }
+    });
+
+    document.addEventListener('keydown', function onKey(e) {
+      if (e.key === 'Escape') {
+        document.cookie = 'lang_dismissed=1; Path=/; Max-Age=604800; SameSite=Lax';
+        dismiss();
+        document.removeEventListener('keydown', onKey);
+      }
+    });
   }
-
-  document.getElementById('langSwitchBtn').addEventListener('click', function() {
-    document.cookie = `preferred_lang=${lang}; Path=/; Max-Age=604800; SameSite=Lax`;
-    window.location.href = `/${lang}/`;
-  });
-
-  document.getElementById('langStayBtn').addEventListener('click', function() {
-    document.cookie = `lang_dismissed=1; Path=/; Max-Age=604800; SameSite=Lax`;
-    dismiss();
-  });
-
-  overlay.addEventListener('click', function(e) {
-    if (e.target === overlay) {
-      document.cookie = `lang_dismissed=1; Path=/; Max-Age=604800; SameSite=Lax`;
-      dismiss();
-    }
-  });
-
-  document.addEventListener('keydown', function onKey(e) {
-    if (e.key === 'Escape') {
-      document.cookie = `lang_dismissed=1; Path=/; Max-Age=604800; SameSite=Lax`;
-      dismiss();
-      document.removeEventListener('keydown', onKey);
-    }
-  });
 })();
 
 // Contact page form — submit to D1 via /api/inquiry
