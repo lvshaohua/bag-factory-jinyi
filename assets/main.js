@@ -326,6 +326,91 @@
 
 })();
 
+// ===== Language Suggestion Popup =====
+(function() {
+  const lang = window.SUGGESTED_LANG;
+  const country = window.SUGGESTED_COUNTRY;
+  if (!lang || !country) return;
+
+  // Already has preference cookie?
+  if (document.cookie.includes('preferred_lang=') || document.cookie.includes('lang_dismissed=')) {
+    return;
+  }
+
+  const langNames = { es: 'Español', fr: 'Français', de: 'Deutsch' };
+  const langName = langNames[lang] || lang;
+
+  const overlay = document.createElement('div');
+  overlay.id = 'langSuggestOverlay';
+  overlay.innerHTML = `
+    <div class="lang-suggest-modal">
+      <div class="lang-suggest-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C45C26" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M2 12h20"/>
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+      </div>
+      <h3>Switch Language?</h3>
+      <p>We detected you may be visiting from <strong>${country}</strong>.</p>
+      <p>Would you like to view this site in <strong>${langName}</strong>?</p>
+      <div class="lang-suggest-buttons">
+        <button class="btn btn-primary" id="langSwitchBtn">Switch to ${langName}</button>
+        <button class="btn btn-secondary" id="langStayBtn">Stay in English</button>
+      </div>
+    </div>
+  `;
+
+  const style = document.createElement('style');
+  style.textContent = `
+    #langSuggestOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;display:flex;align-items:center;justify-content:center;animation:fadeIn .25s ease}
+    .lang-suggest-modal{background:#fff;border-radius:12px;padding:32px 28px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:slideUp .3s ease}
+    .lang-suggest-icon{margin-bottom:16px}
+    .lang-suggest-modal h3{font-size:1.5rem;margin:0 0 12px;color:#1a1a1a}
+    .lang-suggest-modal p{margin:6px 0;color:#555;line-height:1.5}
+    .lang-suggest-buttons{display:flex;gap:12px;justify-content:center;margin-top:24px;flex-wrap:wrap}
+    .lang-suggest-buttons .btn{padding:12px 24px;border-radius:8px;font-size:1rem;cursor:pointer;border:none;transition:opacity .2s}
+    .lang-suggest-buttons .btn-primary{background:#C45C26;color:#fff}
+    .lang-suggest-buttons .btn-secondary{background:#f0f0f0;color:#333}
+    .lang-suggest-buttons .btn:hover{opacity:.85}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+  `;
+
+  document.head.appendChild(style);
+  document.body.appendChild(overlay);
+
+  function dismiss() {
+    overlay.remove();
+    style.remove();
+  }
+
+  document.getElementById('langSwitchBtn').addEventListener('click', function() {
+    document.cookie = `preferred_lang=${lang}; Path=/; Max-Age=604800; SameSite=Lax`;
+    window.location.href = `/${lang}/`;
+  });
+
+  document.getElementById('langStayBtn').addEventListener('click', function() {
+    document.cookie = `lang_dismissed=1; Path=/; Max-Age=604800; SameSite=Lax`;
+    dismiss();
+  });
+
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) {
+      document.cookie = `lang_dismissed=1; Path=/; Max-Age=604800; SameSite=Lax`;
+      dismiss();
+    }
+  });
+
+  document.addEventListener('keydown', function onKey(e) {
+    if (e.key === 'Escape') {
+      document.cookie = `lang_dismissed=1; Path=/; Max-Age=604800; SameSite=Lax`;
+      dismiss();
+      document.removeEventListener('keydown', onKey);
+    }
+  });
+})();
+
 // Contact page form — submit to D1 via /api/inquiry
   const contactForm = document.querySelector('.contact-form');
   if (contactForm) {

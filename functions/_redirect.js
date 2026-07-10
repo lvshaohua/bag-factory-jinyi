@@ -1,7 +1,6 @@
-// Cloudflare Pages Function: Auto-redirect root "/" to language-specific page based on IP country
+// Cloudflare Pages Function: Inject country info into root page for language suggestion popup
 // Uses CF-IPCountry header (provided automatically by Cloudflare)
-// Matches: Spanish-speaking → /es/, French-speaking → /fr/, German-speaking → /de/
-// All others → default English (no redirect, serve root index.html)
+// Does NOT auto-redirect — frontend JS handles user confirmation
 
 const COUNTRY_LANG_MAP = {
   // Spanish (es)
@@ -17,7 +16,18 @@ const COUNTRY_LANG_MAP = {
   'DE': 'de', 'AT': 'de', 'CH': 'de', 'LI': 'de', 'LU': 'de',
 };
 
-export function onRequest(context) {
+const COUNTRY_NAMES = {
+  'ES': 'Spain', 'MX': 'Mexico', 'AR': 'Argentina', 'CO': 'Colombia', 'CL': 'Chile', 'PE': 'Peru',
+  'VE': 'Venezuela', 'EC': 'Ecuador', 'GT': 'Guatemala', 'CU': 'Cuba', 'BO': 'Bolivia', 'DO': 'Dominican Republic',
+  'HN': 'Honduras', 'PY': 'Paraguay', 'SV': 'El Salvador', 'NI': 'Nicaragua', 'CR': 'Costa Rica', 'PA': 'Panama',
+  'UY': 'Uruguay', 'GQ': 'Equatorial Guinea',
+  'FR': 'France', 'BE': 'Belgium', 'LU': 'Luxembourg', 'MC': 'Monaco', 'SN': 'Senegal', 'CI': 'Ivory Coast',
+  'ML': 'Mali', 'BF': 'Burkina Faso', 'NE': 'Niger', 'TD': 'Chad', 'GN': 'Guinea', 'BI': 'Burundi',
+  'DJ': 'Djibouti', 'RW': 'Rwanda', 'MG': 'Madagascar', 'KM': 'Comoros', 'CG': 'Congo', 'CD': 'DR Congo',
+  'DE': 'Germany', 'AT': 'Austria', 'CH': 'Switzerland', 'LI': 'Liechtenstein',
+};
+
+export async function onRequest(context) {
   const url = new URL(context.request.url);
   const path = url.pathname;
 
@@ -26,27 +36,36 @@ export function onRequest(context) {
     return context.next();
   }
 
-  // If visitor has a lang cookie (already chose a language), respect it
+  // If visitor already has a preference cookie, skip injection
   const cookieHeader = context.request.headers.get('Cookie') || '';
-  const langMatch = cookieHeader.match(/(?:^|;\s*)preferred_lang=(es|fr|de)/);
-  if (langMatch) {
-    const lang = langMatch[1];
-    return Response.redirect(`${url.origin}/${lang}/`, 302);
+  if (cookieHeader.includes('preferred_lang=') || cookieHeader.includes('lang_dismissed=')) {
+    return context.next();
   }
 
   // Get country from Cloudflare CF-IPCountry header
   const country = context.request.headers.get('CF-IPCountry') || '';
-
-  // Map country code to language
   const lang = COUNTRY_LANG_MAP[country.toUpperCase()];
 
-  if (lang) {
-    // Set cookie so returning visitors keep their language preference
-    const response = Response.redirect(`${url.origin}/${lang}/`, 302);
-    response.headers.append('Set-Cookie', `preferred_lang=${lang}; Path=/; Max-Age=31536000; SameSite=Lax`);
-    return response;
+  if (!lang) {
+    return context.next();
   }
 
-  // Default: serve English root page (no redirect)
-  return context.next();
+  // Inject suggested language info into HTML so frontend can show confirmation popup
+  const response = await context.next();
+  let html = await response.text();
+
+  const countryName = COUNTRY_NAMES[country.toUpperCase()] || country.toUpperCase();
+  const script = `<script>window.SUGGESTED_LANG='${lang}';window.SUGGESTED_COUNTRY='${countryName}';</script>`;
+
+  // Insert before closing </head>
+  if (html.includes('</head>')) {
+    html = html.replace('</head>', `${script}</head>`);
+  }
+
+  return new Response(html, {
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'public, max-age=0, must-revalidate',
+    },
+  });
 }
