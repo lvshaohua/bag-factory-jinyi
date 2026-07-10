@@ -866,6 +866,34 @@ body {
   letter-spacing: 0.02em;
   text-transform: uppercase;
 }
+
+.discount-urgency-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+  padding: 0.3rem 0.7rem;
+  background: linear-gradient(135deg, #C53030, #9B2C2C);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 600;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  animation: pulse-limited 2s ease-in-out infinite;
+}
+.urgency-icon {
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+.urgency-divider {
+  opacity: 0.4;
+  font-weight: 400;
+}
+.urgency-save {
+  font-weight: 800;
+  color: #FED7D7;
+}
 .detail-price-block .price-qty-note {
   font-size: 0.8rem;
   color: var(--muted);
