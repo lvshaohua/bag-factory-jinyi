@@ -1476,6 +1476,30 @@ body {
   gap: 2rem;
 }
 
+.custom-options-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+.option-card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+.option-card h3 {
+  font-family: 'InstrumentSerif', serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  color: var(--ink);
+}
+.option-card p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
 .feature-card {
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.1);
@@ -1884,6 +1908,27 @@ body {
   margin-top: 1rem;
 }
 
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+}
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--ink);
+  cursor: pointer;
+}
+.checkbox-group input[type="checkbox"] {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
 /* Map Placeholder */
 .map-placeholder {
   background: var(--bg2);
@@ -1998,6 +2043,7 @@ body {
 /* Responsive */
 @media (max-width: 1024px) {
   .products-grid { grid-template-columns: repeat(2, 1fr); }
+  .custom-options-grid { grid-template-columns: repeat(2, 1fr); }
   .process-steps { grid-template-columns: repeat(2, 1fr); }
   .process-steps::before { display: none; }
   .features-grid { grid-template-columns: repeat(2, 1fr); }
@@ -2052,6 +2098,7 @@ body {
 
 .mobile-menu-btn { display: block; }
   .products-grid { grid-template-columns: 1fr; }
+  .custom-options-grid { grid-template-columns: 1fr; }
   .process-steps { grid-template-columns: 1fr; }
   .features-grid { grid-template-columns: 1fr; }
   .craft-grid { grid-template-columns: 1fr; gap: 2rem; }
