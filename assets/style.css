@@ -2176,13 +2176,167 @@ body {
   .hero-image { order: -1; }
 }
 
+/* Modal / Popup */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  background: var(--surface);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.15);
+  transform: translateY(20px) scale(0.96);
+  transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal {
+  transform: translateY(0) scale(1);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 0;
+}
+
+.modal-header h2 {
+  font-family: 'InstrumentSerif', serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+.modal-close:hover { color: var(--ink); }
+
+.modal-body {
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.modal-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.modal-form label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: var(--ink);
+}
+
+.modal-form .label-note {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.modal-form input,
+.modal-form select,
+.modal-form textarea {
+  width: 100%;
+  padding: 0.65rem 0.875rem;
+  border: 1.5px solid var(--rule);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  background: var(--bg);
+  color: var(--ink);
+  transition: border-color 0.2s;
+}
+
+.modal-form input:focus,
+.modal-form select:focus,
+.modal-form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.modal-form .required-mark {
+  color: var(--accent);
+}
+
+.modal-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.modal-submit {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.modal-success,
+.modal-error {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.modal-success svg,
+.modal-error svg {
+  margin-bottom: 1rem;
+}
+
+.modal-success h3 {
+  font-family: 'InstrumentSerif', serif;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: var(--accent2);
+}
+
+.modal-error h3 {
+  font-family: 'InstrumentSerif', serif;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+}
+
+.modal-success p,
+.modal-error p {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 /* Print styles */
 @media print {
-  .navbar, .cta-section, .footer, .mobile-menu-btn { display: none; }
+  .navbar, .cta-section, .footer, .mobile-menu-btn, .modal-overlay { display: none; }
   .hero { padding-top: 0; min-height: auto; }
   .section { padding: 2rem 0; }
   body { font-size: 12pt; }
   a { text-decoration: none; color: var(--ink); }
+}
+
+@media (max-width: 520px) {
+  .modal-form .form-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ===== Media Gallery Section ===== */

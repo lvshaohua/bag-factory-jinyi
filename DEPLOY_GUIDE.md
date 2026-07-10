@@ -1,4 +1,4 @@
-# Cloudflare Pages 部署指南
+# Cloudflare Pages + D1 部署指南
 
 ## 一、准备工作
 
@@ -15,7 +15,34 @@ wrangler login
 
 ---
 
-## 二、部署到 Cloudflare Pages
+## 二、创建 D1 数据库
+
+```bash
+wrangler d1 create bag-factory-db
+```
+
+执行后会返回 `database_id`，类似：
+```
+✅ Successfully created DB 'bag-factory-db'
+ID: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+```
+
+**复制这个 ID**，替换 `wrangler.toml` 中的 `your-database-id-here`：
+```toml
+[[d1_databases]]
+binding = "DB"
+database_name = "bag-factory-db"
+database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"  # 替换为实际ID
+```
+
+### 初始化数据库表
+```bash
+wrangler d1 execute bag-factory-db --file=./schema.sql
+```
+
+---
+
+## 三、部署到 Cloudflare Pages
 
 ### 方式一：命令行部署（推荐）
 
@@ -35,16 +62,48 @@ wrangler pages deploy . --project-name bag-factory-jinyi
    - 选择仓库并配置：
      - **Build command**: 留空（纯静态站点）
      - **Build output directory**: `.`
+3. 添加 D1 绑定：
+   - 项目设置 → **Functions** → **D1 database bindings**
+   - Variable name: `DB`
+   - 选择 `bag-factory-db`
 
 ---
 
-## 三、验证部署
+## 四、部署后配置
 
-部署成功后，访问项目 URL 确认页面正常显示即可。
+### 绑定 D1 数据库（命令行部署后）
+
+在 Cloudflare Dashboard 中：
+1. 进入 **Workers & Pages** → 选择 `bag-factory-jinyi`
+2. 点击 **Settings** → **Functions**
+3. 在 **D1 database bindings** 中添加：
+   - Variable name: `DB`
+   - D1 database: `bag-factory-db`
 
 ---
 
-## 四、文件结构说明
+## 五、验证部署
+
+### 测试 API
+```bash
+curl -X POST https://bag-factory-jinyi.pages.dev/api/inquiry \
+  -H "Content-Type: application/json" \
+  -d '{"name":"测试","country":"中国","phone":"13800138000"}'
+```
+
+### 查看数据
+```bash
+curl https://bag-factory-jinyi.pages.dev/api/inquiry
+```
+
+或在 D1 控制台执行：
+```sql
+SELECT * FROM inquiries ORDER BY created_at DESC;
+```
+
+---
+
+## 六、文件结构说明
 
 ```
 bag-factory-new/
@@ -53,29 +112,52 @@ bag-factory-new/
 ├── process.html            # 定制流程
 ├── about.html              # 关于我们
 ├── contact.html            # 联系我们
-├── canvas-bags.html        # 帆布袋详情
-├── nonwoven-bags.html      # 无纺布袋详情
-├── drawstring-bags.html    # 束口袋详情
-├── felt-bags.html          # 毛毡袋详情
 ├── assets/
-│   ├── style.css           # 全局样式
-│   ├── main.js             # 全局脚本
+│   ├── style.css           # 全局样式（含弹窗样式）
+│   ├── main.js             # 全局脚本（含弹窗逻辑）
 │   ├── banner.png          # 工厂横幅图
 │   ├── logo.png            # 品牌Logo
 │   ├── price.png           # 价格表
 │   ├── specs.png           # 规格表
 │   └── video_thumb_*.jpg   # 视频缩略图
+├── functions/
+│   └── api/
+│       └── inquiry.js      # Pages Function API
+├── _shared/
+│   ├── fonts/              # 字体文件
+│   └── js/                 # ECharts等库
 ├── wrangler.toml           # Cloudflare配置
+├── schema.sql              # D1数据库表结构
 └── DEPLOY_GUIDE.md         # 本指南
 ```
 
 ---
 
-## 五、联系方式配置
+## 七、功能说明
 
-联系页面（contact.html）中的邮箱、WhatsApp、电话等信息直接在 HTML 中修改即可：
+### 弹窗咨询表单
+- 点击导航栏 **立即咨询** 或 CTA区域按钮会弹出表单
+- **称呼**：必填
+- **国家、手机号、邮箱、WhatsApp**：选填
+- **产品类型、预计数量、需求描述**：选填
+- 提交后数据自动存入 D1 数据库
 
-```html
-<a href="mailto:sales@example.com">sales@example.com</a>
-<a href="https://wa.me/8618668121065">WhatsApp</a>
-```
+### API 端点
+- `POST /api/inquiry` - 提交咨询
+- `GET /api/inquiry` - 查询所有咨询记录
+
+### 数据表结构
+| 字段 | 说明 |
+|------|------|
+| id | 自增ID |
+| name | 称呼（必填） |
+| country | 国家 |
+| phone | 手机号 |
+| email | 邮箱 |
+| whatsapp | WhatsApp |
+| product | 产品类型 |
+| quantity | 预计数量 |
+| message | 需求描述 |
+| ip_address | 提交者IP |
+| user_agent | 浏览器信息 |
+| created_at | 提交时间 |
