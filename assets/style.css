@@ -756,12 +756,12 @@ body {
 .product-card-price .price-current {
   font-size: 1.5rem;
   font-weight: 800;
-  color: var(--ink);
+  color: #C53030;
   letter-spacing: -0.04em;
 }
 .product-card-price .price-original {
   font-size: 0.9rem;
-  color: #999;
+  color: #888;
   text-decoration: line-through;
   margin-left: 0.4rem;
 }
@@ -770,6 +770,18 @@ body {
   color: var(--muted);
   margin-top: 0.2rem;
   display: block;
+}
+.product-card-price .price-limited {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #B7791F;
+  background: #FEF3C7;
+  display: inline-block;
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 0.15rem;
 }
 
 /* ===== Detail Page Price Block ===== */
@@ -794,19 +806,19 @@ body {
 .detail-price-block .price-current {
   font-size: 2rem;
   font-weight: 800;
-  color: var(--ink);
+  color: #C53030;
   letter-spacing: -0.04em;
   line-height: 1;
 }
 .detail-price-block .price-original {
   font-size: 1rem;
-  color: #999;
+  color: #888;
   text-decoration: line-through;
 }
 .detail-price-block .discount-pill {
   display: inline-flex;
   align-items: center;
-  background: linear-gradient(135deg, #C45C26, #A84D1F);
+  background: linear-gradient(135deg, #C53030, #D4380D);
   color: #fff;
   font-size: 0.7rem;
   font-weight: 700;
@@ -819,6 +831,18 @@ body {
   font-size: 0.8rem;
   color: var(--muted);
   margin-top: 0.4rem;
+}
+.detail-price-block .price-limited {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #B7791F;
+  background: #FEF3C7;
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 0.35rem;
 }
 
 /* Volume pricing table */
