@@ -329,6 +329,15 @@
 // Contact page form — submit to D1 via /api/inquiry
   const contactForm = document.querySelector('.contact-form');
   if (contactForm) {
+    // Auto-detect language for contact form
+    const contactPath = window.location.pathname;
+    let contactLang = 'en';
+    if (contactPath.startsWith('/es/')) contactLang = 'es';
+    else if (contactPath.startsWith('/fr/')) contactLang = 'fr';
+    else if (contactPath.startsWith('/de/')) contactLang = 'de';
+    const langInput = contactForm.querySelector('input[name="lang"]');
+    if (langInput) langInput.value = contactLang;
+
     contactForm.addEventListener('submit', async function(e) {
       e.preventDefault();
 
