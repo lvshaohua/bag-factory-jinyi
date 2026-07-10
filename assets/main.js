@@ -113,6 +113,10 @@
               <input type="email" id="inquiryEmail" name="email" required placeholder="your@email.com">
             </div>
             <div class="form-group">
+              <label for="inquiryPhone">Phone / WhatsApp</label>
+              <input type="text" id="inquiryPhone" name="phone" placeholder="+86 123 4567 8900">
+            </div>
+            <div class="form-group">
               <label for="inquiryProduct">Product Type</label>
               <select id="inquiryProduct" name="productType">
                 <option value="">Select a product type</option>
@@ -213,6 +217,7 @@
     const name = document.getElementById('inquiryName').value.trim();
     const email = document.getElementById('inquiryEmail').value.trim();
     const country = document.getElementById('inquiryCountry').value.trim();
+    const phone = document.getElementById('inquiryPhone').value.trim();
     const productType = document.getElementById('inquiryProduct').value;
     const quantity = document.getElementById('inquiryQuantity').value;
     const message = document.getElementById('inquiryMessage').value.trim();
@@ -232,6 +237,7 @@
     formData.append('name', name);
     formData.append('email', email);
     formData.append('country', country);
+    if (phone) formData.append('phone', phone);
     if (productType) formData.append('productType', productType);
     if (quantity) formData.append('quantity', quantity);
     if (message) formData.append('message', message);
