@@ -760,10 +760,13 @@ body {
   letter-spacing: -0.04em;
 }
 .product-card-price .price-original {
-  font-size: 0.9rem;
-  color: #888;
+  font-size: 1rem;
+  color: #555;
   text-decoration: line-through;
+  text-decoration-color: #C53030;
+  text-decoration-thickness: 1.5px;
   margin-left: 0.4rem;
+  font-weight: 600;
 }
 .product-card-price .price-qty-note {
   font-size: 0.7rem;
@@ -811,9 +814,12 @@ body {
   line-height: 1;
 }
 .detail-price-block .price-original {
-  font-size: 1rem;
-  color: #888;
+  font-size: 1.15rem;
+  color: #555;
   text-decoration: line-through;
+  text-decoration-color: #C53030;
+  text-decoration-thickness: 1.5px;
+  font-weight: 600;
 }
 .detail-price-block .discount-pill {
   display: inline-flex;
