@@ -105,26 +105,38 @@
               <input type="text" id="inquiryName" name="name" required placeholder="Your name">
             </div>
             <div class="form-group">
-              <label for="inquiryEmail">Email</label>
-              <input type="email" id="inquiryEmail" name="email" placeholder="your@email.com">
-            </div>
-            <div class="form-group">
-              <label for="inquiryWhatsapp">WhatsApp / Phone</label>
-              <input type="text" id="inquiryWhatsapp" name="whatsapp" placeholder="+86 123 4567 8900">
-            </div>
-            <div class="form-group">
               <label for="inquiryCountry">Country <span class="required-mark">*</span></label>
               <input type="text" id="inquiryCountry" name="country" required placeholder="e.g. USA, Germany, Australia">
             </div>
             <div class="form-group">
-              <label for="inquiryQuantity">Estimated Quantity <span class="required-mark">*</span></label>
-              <select id="inquiryQuantity" name="quantity" required>
-                <option value="">Select quantity</option>
-                <option value="100-500">100-500 pcs</option>
-                <option value="500-1000">500-1,000 pcs</option>
-                <option value="1000-5000">1,000-5,000 pcs</option>
-                <option value="5000+">5,000+ pcs</option>
+              <label for="inquiryEmail">Email <span class="required-mark">*</span></label>
+              <input type="email" id="inquiryEmail" name="email" required placeholder="your@email.com">
+            </div>
+            <div class="form-group">
+              <label for="inquiryProduct">Product Type</label>
+              <select id="inquiryProduct" name="productType">
+                <option value="">Select a product type</option>
+                <option value="canvas-bags">Canvas Bags</option>
+                <option value="non-woven-bags">Non-Woven Bags</option>
+                <option value="drawstring-bags">Drawstring Bags</option>
+                <option value="felt-bags">Felt Bags</option>
+                <option value="not-sure">Not Sure / Need Recommendation</option>
               </select>
+            </div>
+            <div class="form-group">
+              <label for="inquiryQuantity">Estimated Quantity</label>
+              <select id="inquiryQuantity" name="quantity">
+                <option value="">Select quantity</option>
+                <option value="100-499">100 - 499 pcs</option>
+                <option value="500-999">500 - 999 pcs</option>
+                <option value="1000-2999">1,000 - 2,999 pcs</option>
+                <option value="3000-9999">3,000 - 9,999 pcs</option>
+                <option value="10000+">10,000+ pcs</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="inquiryMessage">Message</label>
+              <textarea id="inquiryMessage" name="message" rows="3" placeholder="Describe your needs: size, print content, etc."></textarea>
             </div>
             <button type="submit" class="btn btn-primary modal-submit" id="modalSubmit">Get a Free Quote</button>
           </form>
@@ -200,16 +212,15 @@
 
     const name = document.getElementById('inquiryName').value.trim();
     const email = document.getElementById('inquiryEmail').value.trim();
-    const whatsappInput = document.getElementById('inquiryWhatsapp');
-    const whatsapp = whatsappInput ? whatsappInput.value.trim() : '';
     const country = document.getElementById('inquiryCountry').value.trim();
+    const productType = document.getElementById('inquiryProduct').value;
     const quantity = document.getElementById('inquiryQuantity').value;
+    const message = document.getElementById('inquiryMessage').value.trim();
 
-    if (!name || !country || !quantity || (!email && !whatsapp)) {
+    if (!name || !country || !email) {
       if (!name) document.getElementById('inquiryName').focus();
       else if (!country) document.getElementById('inquiryCountry').focus();
-      else if (!email && !whatsapp) { document.getElementById('inquiryEmail').focus(); alert('Please provide at least Email or WhatsApp/Phone'); }
-      else document.getElementById('inquiryQuantity').focus();
+      else if (!email) document.getElementById('inquiryEmail').focus();
       return;
     }
 
@@ -219,9 +230,10 @@
     const formData = new FormData();
     formData.append('name', name);
     formData.append('email', email);
-    formData.append('whatsapp', whatsapp);
     formData.append('country', country);
-    formData.append('quantity', quantity);
+    if (productType) formData.append('productType', productType);
+    if (quantity) formData.append('quantity', quantity);
+    if (message) formData.append('message', message);
 
     try {
       const response = await fetch('/api/inquiry', {
@@ -305,15 +317,12 @@
       e.preventDefault();
       const formData = new FormData(this);
 
-      // Basic validation
+      // Basic validation: name, country, email are required
       const name = formData.get('name');
       const email = formData.get('email');
       const country = formData.get('country');
-      const product = formData.get('product');
-      const message = formData.get('message');
-      const whatsapp = formData.get('whatsapp');
-      if (!name || !country || !product || !message || (!email && !whatsapp)) {
-        alert('Please fill in all required fields.');
+      if (!name || !country || !email) {
+        alert('Please fill in all required fields: Name, Country, Email.');
         return;
       }
 
