@@ -317,12 +317,8 @@
     contactForm.addEventListener('submit', async function(e) {
       e.preventDefault();
 
-      const name = this.querySelector('#name').value.trim();
-      const email = this.querySelector('#email').value.trim();
-      const country = this.querySelector('#country').value.trim();
-
-      if (!name || !country || !email) {
-        alert('Please fill in all required fields: Name, Country, Email.');
+      if (!this.checkValidity()) {
+        this.reportValidity();
         return;
       }
 
