@@ -88,167 +88,6 @@
     });
   }
 
-  // ===== Modal / Popup Form =====
-  const modalHTML = `
-    <div class="modal-overlay" id="inquiryModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <div class="modal">
-        <div class="modal-header">
-          <h2 id="modalTitle">Get a Free Quote</h2>
-          <button type="button" class="modal-close" aria-label="Close" id="modalClose">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form class="modal-form" id="inquiryForm" novalidate>
-            <div class="form-group">
-              <label for="inquiryName">Name <span class="required-mark">*</span></label>
-              <input type="text" id="inquiryName" name="name" required placeholder="Your name">
-            </div>
-            <div class="form-group">
-              <label for="inquiryEmail">Email</label>
-              <input type="email" id="inquiryEmail" name="email" placeholder="your@email.com">
-            </div>
-            <div class="form-group">
-              <label for="inquiryWhatsapp">WhatsApp / Phone</label>
-              <input type="text" id="inquiryWhatsapp" name="whatsapp" placeholder="+86 123 4567 8900">
-            </div>
-            <div class="form-group">
-              <label for="inquiryCountry">Country <span class="required-mark">*</span></label>
-              <input type="text" id="inquiryCountry" name="country" required placeholder="e.g. USA, Germany, Australia">
-            </div>
-            <div class="form-group">
-              <label for="inquiryQuantity">Estimated Quantity <span class="required-mark">*</span></label>
-              <select id="inquiryQuantity" name="quantity" required>
-                <option value="">Select quantity</option>
-                <option value="100-500">100-500 pcs</option>
-                <option value="500-1000">500-1,000 pcs</option>
-                <option value="1000-5000">1,000-5,000 pcs</option>
-                <option value="5000+">5,000+ pcs</option>
-              </select>
-            </div>
-            <button type="submit" class="btn btn-primary modal-submit" id="modalSubmit">Get a Free Quote</button>
-          </form>
-          <div class="modal-success" id="modalSuccess" style="display:none;">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            <h3>Thank you!</h3>
-            <p>We'll contact you within 24 hours with your quote.</p>
-          </div>
-          <div class="modal-error" id="modalError" style="display:none;">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#C45C26" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-            <h3>Submission Failed</h3>
-            <p id="modalErrorText">Submission failed. Please try again or call us directly.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-
-  // Inject modal into body
-  document.body.insertAdjacentHTML('beforeend', modalHTML);
-
-  const modal = document.getElementById('inquiryModal');
-  const modalClose = document.getElementById('modalClose');
-  const inquiryForm = document.getElementById('inquiryForm');
-  const modalSuccess = document.getElementById('modalSuccess');
-  const modalError = document.getElementById('modalError');
-  const modalErrorText = document.getElementById('modalErrorText');
-  const modalSubmit = document.getElementById('modalSubmit');
-
-  function openModal() {
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    document.getElementById('inquiryName').focus();
-  }
-
-  function closeModal() {
-    modal.classList.remove('active');
-    document.body.style.overflow = '';
-    // Reset form after animation
-    setTimeout(() => {
-      inquiryForm.style.display = '';
-      modalSuccess.style.display = 'none';
-      modalError.style.display = 'none';
-      inquiryForm.reset();
-      modalSubmit.disabled = false;
-      modalSubmit.textContent = 'Get a Free Quote';
-    }, 300);
-  }
-
-  // Bind to all CTA buttons (nav CTA, bottom CTA section, hero buttons)
-  document.querySelectorAll('.nav-cta, .cta-section .btn, .hero-buttons .btn-primary.open-modal').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      openModal();
-    });
-  });
-
-  modalClose.addEventListener('click', closeModal);
-
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
-      closeModal();
-    }
-  });
-
-  // Form submission
-  inquiryForm.addEventListener('submit', async function(e) {
-    e.preventDefault();
-
-    const name = document.getElementById('inquiryName').value.trim();
-    const email = document.getElementById('inquiryEmail').value.trim();
-    const whatsappInput = document.getElementById('inquiryWhatsapp');
-    const whatsapp = whatsappInput ? whatsappInput.value.trim() : '';
-    const country = document.getElementById('inquiryCountry').value.trim();
-    const quantity = document.getElementById('inquiryQuantity').value;
-
-    if (!name || !country || !quantity || (!email && !whatsapp)) {
-      if (!name) document.getElementById('inquiryName').focus();
-      else if (!country) document.getElementById('inquiryCountry').focus();
-      else if (!email && !whatsapp) { document.getElementById('inquiryEmail').focus(); alert('Please provide at least Email or WhatsApp/Phone'); }
-      else document.getElementById('inquiryQuantity').focus();
-      return;
-    }
-
-    modalSubmit.disabled = true;
-    modalSubmit.textContent = 'Submitting...';
-
-    const formData = new FormData();
-    formData.append('name', name);
-    formData.append('email', email);
-    formData.append('whatsapp', whatsapp);
-    formData.append('country', country);
-    formData.append('quantity', quantity);
-
-    try {
-      const response = await fetch('/api/inquiry', {
-        method: 'POST',
-        body: formData
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        inquiryForm.style.display = 'none';
-        modalSuccess.style.display = 'block';
-      } else {
-        modalErrorText.textContent = result.error || 'Submission failed. Please try again or call us directly.';
-        inquiryForm.style.display = 'none';
-        modalError.style.display = 'block';
-      }
-    } catch (err) {
-      modalErrorText.textContent = 'Network error. Please try again or contact us by phone.';
-      inquiryForm.style.display = 'none';
-      modalError.style.display = 'block';
-    }
-
-    modalSubmit.disabled = false;
-    modalSubmit.textContent = 'Get a Free Quote';
-  }); // end addEventListener submit
-
   // Image lightbox — hover loads full image, click opens fullscreen
   const lightboxHTML = '<div class="lightbox-overlay" id="imageLightbox"><button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button><img src="" alt="" id="lightboxImg"></div>';
   document.body.insertAdjacentHTML('beforeend', lightboxHTML);
@@ -298,179 +137,134 @@
 
 })();
 
-// Contact page form — unified submission logic (same as modal, uses FormData)
-  const contactForm = document.querySelector('.contact-form');
-  if (contactForm) {
-    contactForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const formData = new FormData(this);
+// ===== Media Gallery Tabs =====
+const mediaTabs = document.querySelectorAll('.media-tab');
+const mediaPanels = document.querySelectorAll('.media-panel');
 
-      // Basic validation
-      const name = formData.get('name');
-      const email = formData.get('email');
-      const country = formData.get('country');
-      const product = formData.get('product');
-      const message = formData.get('message');
-      const whatsapp = formData.get('whatsapp');
-      if (!name || !country || !product || !message || (!email && !whatsapp)) {
-        alert('Please fill in all required fields.');
-        return;
-      }
-
-      const submitBtn = this.querySelector('button[type="submit"]');
-      const originalText = submitBtn.textContent;
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Submitting...';
-
-      try {
-        const response = await fetch('/api/inquiry', {
-          method: 'POST',
-          body: formData
-        });
-        const result = await response.json();
-        if (result.success) {
-          alert('Thank you! We\'ll contact you within 24 hours.');
-          this.reset();
-        } else {
-          alert(result.error || 'Submission failed. Please try again or call us directly.');
-        }
-      } catch (err) {
-        alert('Network error. Please try again or contact us by phone.');
-      }
-
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
-    });
-  }
-
-  // ===== Media Gallery Tabs =====
-  const mediaTabs = document.querySelectorAll('.media-tab');
-  const mediaPanels = document.querySelectorAll('.media-panel');
-
-  mediaTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const target = tab.getAttribute('data-tab');
-      mediaTabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      mediaPanels.forEach(p => {
-        p.classList.toggle('active', p.getAttribute('data-panel') === target);
-      });
+mediaTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.getAttribute('data-tab');
+    mediaTabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    mediaPanels.forEach(p => {
+      p.classList.toggle('active', p.getAttribute('data-panel') === target);
     });
   });
+});
 
-  // ===== Lightbox =====
-  const lightbox = document.getElementById('lightbox');
-  const lightboxMedia = document.getElementById('lightboxMedia');
-  const lightboxCaption = document.getElementById('lightboxCaption');
-  const lightboxClose = document.getElementById('lightboxClose');
+// ===== Lightbox =====
+const lightbox = document.getElementById('lightbox');
+const lightboxMedia = document.getElementById('lightboxMedia');
+const lightboxCaption = document.getElementById('lightboxCaption');
+const lightboxClose = document.getElementById('lightboxClose');
 
-  function openLightbox(src, type, label) {
-    lightboxMedia.innerHTML = '';
-    if (type === 'video') {
-      const video = document.createElement('video');
-      video.src = src;
-      video.controls = true;
-      video.autoplay = true;
-      video.style.maxWidth = '90vw';
-      video.style.maxHeight = '85vh';
-      lightboxMedia.appendChild(video);
-    } else {
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = label || '';
-      lightboxMedia.appendChild(img);
-    }
-    lightboxCaption.textContent = label || '';
-    lightbox.classList.add('active');
-    document.body.style.overflow = 'hidden';
+function openLightbox(src, type, label) {
+  lightboxMedia.innerHTML = '';
+  if (type === 'video') {
+    const video = document.createElement('video');
+    video.src = src;
+    video.controls = true;
+    video.autoplay = true;
+    video.style.maxWidth = '90vw';
+    video.style.maxHeight = '85vh';
+    lightboxMedia.appendChild(video);
+  } else {
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = label || '';
+    lightboxMedia.appendChild(img);
   }
+  lightboxCaption.textContent = label || '';
+  lightbox.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
 
-  function closeLightbox() {
-    lightbox.classList.remove('active');
-    document.body.style.overflow = '';
-    const video = lightboxMedia.querySelector('video');
-    if (video) {
-      video.pause();
-      video.src = '';
-    }
-    lightboxMedia.innerHTML = '';
+function closeLightbox() {
+  lightbox.classList.remove('active');
+  document.body.style.overflow = '';
+  const video = lightboxMedia.querySelector('video');
+  if (video) {
+    video.pause();
+    video.src = '';
   }
+  lightboxMedia.innerHTML = '';
+}
 
-  document.querySelectorAll('.media-item').forEach(item => {
-    item.addEventListener('click', () => {
-      const src = item.getAttribute('data-src');
-      const type = item.getAttribute('data-type');
-      const label = item.getAttribute('data-label');
-      openLightbox(src, type, label);
-    });
+document.querySelectorAll('.media-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const src = item.getAttribute('data-src');
+    const type = item.getAttribute('data-type');
+    const label = item.getAttribute('data-label');
+    openLightbox(src, type, label);
   });
+});
 
-  if (lightboxClose) {
-    lightboxClose.addEventListener('click', closeLightbox);
-  }
+if (lightboxClose) {
+  lightboxClose.addEventListener('click', closeLightbox);
+}
 
-  if (lightbox) {
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) closeLightbox();
-    });
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && lightbox && lightbox.classList.contains('active')) {
-      closeLightbox();
-    }
+if (lightbox) {
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
   });
+}
 
-  // ===== Amazon-style Image Gallery (hover to swap main image) =====
-  document.querySelectorAll('.product-gallery-amazon').forEach(gallery => {
-    const mainImg = gallery.querySelector('.gallery-main img');
-    const thumbs = gallery.querySelectorAll('.gallery-thumb');
-    if (!mainImg || thumbs.length === 0) return;
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && lightbox && lightbox.classList.contains('active')) {
+    closeLightbox();
+  }
+});
 
-    // On load: select first thumb, load full image for main
-    if (thumbs[0]) {
-      thumbs[0].classList.add('active');
-      const firstThumbImg = thumbs[0].querySelector('img');
-      const firstFull = firstThumbImg ? firstThumbImg.dataset.full : null;
-      if (firstFull) mainImg.src = firstFull;
-    }
+// ===== Amazon-style Image Gallery (hover to swap main image) =====
+document.querySelectorAll('.product-gallery-amazon').forEach(gallery => {
+  const mainImg = gallery.querySelector('.gallery-main img');
+  const thumbs = gallery.querySelectorAll('.gallery-thumb');
+  if (!mainImg || thumbs.length === 0) return;
 
-    thumbs.forEach(thumb => {
-      // Hover: instantly show thumb, then load full image
-      thumb.addEventListener('mouseenter', () => {
-        const thumbImg = thumb.querySelector('img');
-        if (!thumbImg) return;
+  // On load: select first thumb, load full image for main
+  if (thumbs[0]) {
+    thumbs[0].classList.add('active');
+    const firstThumbImg = thumbs[0].querySelector('img');
+    const firstFull = firstThumbImg ? firstThumbImg.dataset.full : null;
+    if (firstFull) mainImg.src = firstFull;
+  }
 
-        const fullSrc = thumbImg.dataset.full || thumbImg.src;
+  thumbs.forEach(thumb => {
+    // Hover: instantly show thumb, then load full image
+    thumb.addEventListener('mouseenter', () => {
+      const thumbImg = thumb.querySelector('img');
+      if (!thumbImg) return;
 
-        // Step 1: instantly swap to thumbnail (no delay)
-        mainImg.src = thumbImg.src;
-        mainImg.alt = thumbImg.alt;
-        thumbs.forEach(t => t.classList.remove('active'));
-        thumb.classList.add('active');
+      const fullSrc = thumbImg.dataset.full || thumbImg.src;
 
-        // Step 2: preload full image, then swap when ready
-        const preload = new Image();
-        preload.onload = function() {
-          mainImg.src = fullSrc;
-          mainImg.dataset.full = fullSrc;
-        };
-        preload.src = fullSrc;
-      });
+      // Step 1: instantly swap to thumbnail (no delay)
+      mainImg.src = thumbImg.src;
+      mainImg.alt = thumbImg.alt;
+      thumbs.forEach(t => t.classList.remove('active'));
+      thumb.classList.add('active');
 
-      // Click: also swap (for mobile/touch)
-      thumb.addEventListener('click', () => {
-        const thumbImg = thumb.querySelector('img');
-        if (!thumbImg) return;
-
-        const fullSrc = thumbImg.dataset.full || thumbImg.src;
-
+      // Step 2: preload full image, then swap when ready
+      const preload = new Image();
+      preload.onload = function() {
         mainImg.src = fullSrc;
-        mainImg.alt = thumbImg.alt;
-        thumbs.forEach(t => t.classList.remove('active'));
-        thumb.classList.add('active');
-      });
+        mainImg.dataset.full = fullSrc;
+      };
+      preload.src = fullSrc;
     });
 
-    // No mouseleave reset — keep last hovered image active
+    // Click: also swap (for mobile/touch)
+    thumb.addEventListener('click', () => {
+      const thumbImg = thumb.querySelector('img');
+      if (!thumbImg) return;
+
+      const fullSrc = thumbImg.dataset.full || thumbImg.src;
+
+      mainImg.src = fullSrc;
+      mainImg.alt = thumbImg.alt;
+      thumbs.forEach(t => t.classList.remove('active'));
+      thumb.classList.add('active');
+    });
   });
+
+  // No mouseleave reset — keep last hovered image active
+});
