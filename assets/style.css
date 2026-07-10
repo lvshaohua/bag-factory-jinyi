@@ -670,6 +670,33 @@ body {
   .gallery-thumb { width: 48px; height: 48px; }
 }
 
+.eco-features-bar {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.eco-features-icon {
+  flex-shrink: 0;
+  color: #16a34a;
+  margin-top: 2px;
+}
+.eco-features-text {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #374151;
+}
+.eco-features-text strong {
+  color: #15803d;
+}
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
