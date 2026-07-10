@@ -277,8 +277,8 @@
     if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
   });
 
-  // Lazy thumb: hover loads full, click opens lightbox
-  document.querySelectorAll('img.lazy-thumb').forEach(function(img) {
+  // Lazy thumb hover: ONLY for thumbnail images (not main image)
+  document.querySelectorAll('.gallery-thumb img.lazy-thumb').forEach(function(img) {
     img.addEventListener('mouseenter', function() {
       var full = this.dataset.full;
       if (full && this.src !== full) {
@@ -286,6 +286,10 @@
         this.style.cursor = 'zoom-in';
       }
     });
+  });
+
+  // Lightbox click: for ALL lazy-thumb images (thumbnails + main)
+  document.querySelectorAll('img.lazy-thumb').forEach(function(img) {
     img.addEventListener('click', function() {
       var src = this.dataset.full || this.src;
       openLightbox(src, this.alt);
