@@ -288,8 +288,8 @@
     });
   });
 
-  // Lightbox click: for ALL lazy-thumb images (thumbnails + main)
-  document.querySelectorAll('img.lazy-thumb').forEach(function(img) {
+  // Lightbox click: lazy-thumb images + gallery main image
+  document.querySelectorAll('img.lazy-thumb, .gallery-main img').forEach(function(img) {
     img.addEventListener('click', function() {
       var src = this.dataset.full || this.src;
       openLightbox(src, this.alt);
@@ -453,6 +453,7 @@
         const preload = new Image();
         preload.onload = function() {
           mainImg.src = fullSrc;
+          mainImg.dataset.full = fullSrc;
         };
         preload.src = fullSrc;
       });
