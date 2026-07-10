@@ -18,17 +18,27 @@ export async function onRequestPost({ request, env }) {
     const formData = await request.formData();
     const name = formData.get('name');
     const country = formData.get('country');
-    const phone = formData.get('phone');
     const email = formData.get('email');
-    const whatsapp = formData.get('whatsapp');
-    const product = formData.get('product');
+    const productType = formData.get('productType');
     const quantity = formData.get('quantity');
     const message = formData.get('message');
 
-    // Validate required field
+    // Validate required fields: name, country, email
     if (!name || name.trim() === '') {
       return new Response(
         JSON.stringify({ success: false, error: 'Name is required' }),
+        { status: 400, headers: corsHeaders }
+      );
+    }
+    if (!country || country.trim() === '') {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Country is required' }),
+        { status: 400, headers: corsHeaders }
+      );
+    }
+    if (!email || email.trim() === '') {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Email is required' }),
         { status: 400, headers: corsHeaders }
       );
     }
@@ -36,16 +46,14 @@ export async function onRequestPost({ request, env }) {
     // Insert into D1 database
     await env.DB.prepare(
       `INSERT INTO inquiries (
-        name, country, phone, email, whatsapp, product, quantity, message,
+        name, country, email, product_type, quantity, message,
         ip_address, user_agent, created_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))`
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))`
     ).bind(
       name.trim(),
-      country || null,
-      phone || null,
-      email || null,
-      whatsapp || null,
-      product || null,
+      country.trim(),
+      email.trim(),
+      productType || null,
       quantity || null,
       message || null,
       request.headers.get('CF-Connecting-IP') || '',
@@ -59,7 +67,7 @@ export async function onRequestPost({ request, env }) {
 
   } catch (err) {
     return new Response(
-      JSON.stringify({ success: false, error: '提交失败：' + err.message }),
+      JSON.stringify({ success: false, error: 'Submission failed: ' + err.message }),
       { status: 500, headers: corsHeaders }
     );
   }
