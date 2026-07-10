@@ -1,6 +1,5 @@
-// Cloudflare Pages Function: Inject country info into root page for language suggestion popup
-// Uses CF-IPCountry header (provided automatically by Cloudflare)
-// Does NOT auto-redirect — frontend JS handles user confirmation
+// Cloudflare Pages Middleware: Inject country-based language suggestion into root page
+// Runs on every request but only modifies the root "/" path
 
 const COUNTRY_LANG_MAP = {
   // Spanish (es)
@@ -27,45 +26,48 @@ const COUNTRY_NAMES = {
   'DE': 'Germany', 'AT': 'Austria', 'CH': 'Switzerland', 'LI': 'Liechtenstein',
 };
 
-export async function onRequest(context) {
+export function onRequest(context) {
   const url = new URL(context.request.url);
   const path = url.pathname;
 
-  // Only handle root path "/" — do not interfere with other routes
+  // Only intercept root path "/"
   if (path !== '/') {
     return context.next();
   }
 
-  // If visitor already has a preference cookie, skip injection
+  // Skip if visitor already has a preference cookie
   const cookieHeader = context.request.headers.get('Cookie') || '';
   if (cookieHeader.includes('preferred_lang=') || cookieHeader.includes('lang_dismissed=')) {
     return context.next();
   }
 
-  // Get country from Cloudflare CF-IPCountry header
-  const country = context.request.headers.get('CF-IPCountry') || '';
-  const lang = COUNTRY_LANG_MAP[country.toUpperCase()];
+  // Check country from Cloudflare
+  const country = (context.request.headers.get('CF-IPCountry') || '').toUpperCase();
+  const lang = COUNTRY_LANG_MAP[country];
 
   if (!lang) {
     return context.next();
   }
 
-  // Inject suggested language info into HTML so frontend can show confirmation popup
-  const response = await context.next();
-  let html = await response.text();
+  // We have a matching language — modify the response to inject suggestion script
+  // Use env.ASSETS to fetch the root index.html manually, inject, and return
+  return context.next().then(response => {
+    // Only modify HTML responses
+    const contentType = response.headers.get('Content-Type') || '';
+    if (!contentType.includes('text/html')) {
+      return response;
+    }
 
-  const countryName = COUNTRY_NAMES[country.toUpperCase()] || country.toUpperCase();
-  const script = `<script>window.SUGGESTED_LANG='${lang}';window.SUGGESTED_COUNTRY='${countryName}';</script>`;
+    const countryName = COUNTRY_NAMES[country] || country;
+    const injectScript = `<script>window.SUGGESTED_LANG='${lang}';window.SUGGESTED_COUNTRY='${countryName}';</script>`;
 
-  // Insert before closing </head>
-  if (html.includes('</head>')) {
-    html = html.replace('</head>', `${script}</head>`);
-  }
-
-  return new Response(html, {
-    headers: {
-      'Content-Type': 'text/html; charset=utf-8',
-      'Cache-Control': 'public, max-age=0, must-revalidate',
-    },
+    return response.text().then(html => {
+      // Insert before </head>
+      const modified = html.replace('</head>', `${injectScript}</head>`);
+      return new Response(modified, {
+        status: response.status,
+        headers: response.headers,
+      });
+    });
   });
 }
