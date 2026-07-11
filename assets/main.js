@@ -41,6 +41,36 @@ var I18N = {
     errorMsg: 'Senden fehlgeschlagen. Bitte versuchen Sie es erneut oder rufen Sie uns an.',
     networkError: 'Netzwerkfehler. Bitte versuchen Sie es erneut oder kontaktieren Sie uns telefonisch.',
     closeBtn: 'Schließen'
+  },
+  ja: {
+    submitting: '送信中...',
+    submitBtn: '無料見積もりを取得',
+    successTitle: 'ありがとうございます！',
+    successMsg: '24時間以内にお見積もりをご連絡いたします。',
+    errorTitle: '送信失敗',
+    errorMsg: '送信に失敗しました。再度お試しいただくか、お電話ください。',
+    networkError: 'ネットワークエラー。再度お試しいただくか、お電話でご連絡ください。',
+    closeBtn: '閉じる'
+  },
+  ko: {
+    submitting: '전송 중...',
+    submitBtn: '무료 견적 받기',
+    successTitle: '감사합니다!',
+    successMsg: '24시간 내에 견적을 보내드리겠습니다.',
+    errorTitle: '전송 실패',
+    errorMsg: '전송에 실패했습니다. 다시 시도하시거나 전화로 문의해 주세요.',
+    networkError: '네트워크 오류. 다시 시도하시거나 전화로 문의해 주세요.',
+    closeBtn: '닫기'
+  },
+  ru: {
+    submitting: 'Отправка...',
+    submitBtn: 'Получить расчёт',
+    successTitle: 'Спасибо!',
+    successMsg: 'Мы свяжемся с вами в течение 24 часов с расчётом.',
+    errorTitle: 'Ошибка отправки',
+    errorMsg: 'Ошибка отправки. Попробуйте снова или позвоните нам.',
+    networkError: 'Ошибка сети. Попробуйте снова или свяжитесь с нами по телефону.',
+    closeBtn: 'Закрыть'
   }
 };
 
@@ -49,6 +79,9 @@ function getPageLang() {
   if (p.startsWith('/es/')) return 'es';
   if (p.startsWith('/fr/')) return 'fr';
   if (p.startsWith('/de/')) return 'de';
+  if (p.startsWith('/ja/')) return 'ja';
+  if (p.startsWith('/ko/')) return 'ko';
+  if (p.startsWith('/ru/')) return 'ru';
   return 'en';
 }
 
@@ -295,6 +328,9 @@ function showToast(type, title, message) {
     if (path.startsWith('/es/')) lang = 'es';
     else if (path.startsWith('/fr/')) lang = 'fr';
     else if (path.startsWith('/de/')) lang = 'de';
+    else if (path.startsWith('/ja/')) lang = 'ja';
+    else if (path.startsWith('/ko/')) lang = 'ko';
+    else if (path.startsWith('/ru/')) lang = 'ru';
     document.getElementById('inquiryLang').value = lang;
 
     // Update button and success/error texts to current language
@@ -467,7 +503,10 @@ function showToast(type, title, message) {
     CU:'es',BO:'es',DO:'es',HN:'es',PY:'es',SV:'es',NI:'es',CR:'es',PA:'es',UY:'es',GQ:'es',
     FR:'fr',BE:'fr',LU:'fr',MC:'fr',SN:'fr',CI:'fr',ML:'fr',BF:'fr',NE:'fr',TD:'fr',
     GN:'fr',BI:'fr',DJ:'fr',RW:'fr',MG:'fr',KM:'fr',CG:'fr',CD:'fr',
-    DE:'de',AT:'de',CH:'de',LI:'de'
+    DE:'de',AT:'de',CH:'de',LI:'de',
+    JP:'ja',
+    KR:'ko',
+    RU:'ru',BY:'ru',KZ:'ru',KG:'ru'
   };
 
   var COUNTRY_NAMES = {
@@ -477,10 +516,13 @@ function showToast(type, title, message) {
     FR:'France',BE:'Belgium',LU:'Luxembourg',MC:'Monaco',SN:'Senegal',CI:'Ivory Coast',
     ML:'Mali',BF:'Burkina Faso',NE:'Niger',TD:'Chad',GN:'Guinea',BI:'Burundi',
     DJ:'Djibouti',RW:'Rwanda',MG:'Madagascar',KM:'Comoros',CG:'Congo',CD:'DR Congo',
-    DE:'Germany',AT:'Austria',CH:'Switzerland',LI:'Liechtenstein'
+    DE:'Germany',AT:'Austria',CH:'Switzerland',LI:'Liechtenstein',
+    JP:'Japan',
+    KR:'South Korea',
+    RU:'Russia',BY:'Belarus',KZ:'Kazakhstan',KG:'Kyrgyzstan'
   };
 
-  var langNames = { es: 'Español', fr: 'Français', de: 'Deutsch' };
+  var langNames = { es: 'Español', fr: 'Français', de: 'Deutsch', ja: '日本語', ko: '한국어', ru: 'Русский' };
 
   // Detect country via free API (cloudflare fallback)
   fetch('https://ipapi.co/json/').then(function(r){ return r.json(); }).then(function(data){
@@ -587,6 +629,9 @@ function showToast(type, title, message) {
     if (contactPath.startsWith('/es/')) contactLang = 'es';
     else if (contactPath.startsWith('/fr/')) contactLang = 'fr';
     else if (contactPath.startsWith('/de/')) contactLang = 'de';
+    else if (contactPath.startsWith('/ja/')) contactLang = 'ja';
+    else if (contactPath.startsWith('/ko/')) contactLang = 'ko';
+    else if (contactPath.startsWith('/ru/')) contactLang = 'ru';
     const langInput = contactForm.querySelector('input[name="lang"]');
     if (langInput) langInput.value = contactLang;
 
