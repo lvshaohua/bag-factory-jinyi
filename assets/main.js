@@ -594,7 +594,7 @@ function showToast(type, title, message) {
     function dismiss() { overlay.remove(); style.remove(); }
 
     document.getElementById('langSwitchBtn').addEventListener('click', function() {
-      document.cookie = 'preferred_lang=' + lang + '; Path=/; Max-Age=604800; SameSite=Lax';
+      document.cookie = 'preferred_lang=' + lang + '; Path=/; Max-Age=432000; SameSite=Lax';
       window.location.href = '/' + lang + '/';
     });
 
