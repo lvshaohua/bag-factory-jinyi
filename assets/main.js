@@ -292,7 +292,6 @@ function showToast(type, title, message) {
               <label for="inquiryMessage">Message</label>
               <textarea id="inquiryMessage" name="message" rows="3" placeholder="Describe your needs: size, print content, etc."></textarea>
             </div>
-            <input type="hidden" id="inquiryLang" name="lang" value="en">
             <button type="submit" class="btn btn-primary modal-submit" id="modalSubmit">Get a Free Quote</button>
           </form>
           <div class="modal-success" id="modalSuccess" style="display:none;">
@@ -322,17 +321,6 @@ function showToast(type, title, message) {
   const modalSubmit = document.getElementById('modalSubmit');
 
   function openModal() {
-    // Detect current language from URL path
-    const path = window.location.pathname;
-    let lang = 'en';
-    if (path.startsWith('/es/')) lang = 'es';
-    else if (path.startsWith('/fr/')) lang = 'fr';
-    else if (path.startsWith('/de/')) lang = 'de';
-    else if (path.startsWith('/ja/')) lang = 'ja';
-    else if (path.startsWith('/ko/')) lang = 'ko';
-    else if (path.startsWith('/ru/')) lang = 'ru';
-    document.getElementById('inquiryLang').value = lang;
-
     // Update button and success/error texts to current language
     modalSubmit.textContent = t('submitBtn');
     document.getElementById('modalSuccessTitle').textContent = t('successTitle');
@@ -409,7 +397,7 @@ function showToast(type, title, message) {
     if (productType) formData.append('productType', productType);
     if (quantity) formData.append('quantity', quantity);
     if (message) formData.append('message', message);
-    formData.append('pagePath', window.location.pathname);
+    formData.append('pagePath', window.location.pathname + window.location.search);
 
     try {
       const response = await fetch('/api/inquiry', {
@@ -624,18 +612,6 @@ function showToast(type, title, message) {
 // Contact page form — submit to D1 via /api/inquiry
   const contactForm = document.querySelector('.contact-form');
   if (contactForm) {
-    // Auto-detect language for contact form
-    const contactPath = window.location.pathname;
-    let contactLang = 'en';
-    if (contactPath.startsWith('/es/')) contactLang = 'es';
-    else if (contactPath.startsWith('/fr/')) contactLang = 'fr';
-    else if (contactPath.startsWith('/de/')) contactLang = 'de';
-    else if (contactPath.startsWith('/ja/')) contactLang = 'ja';
-    else if (contactPath.startsWith('/ko/')) contactLang = 'ko';
-    else if (contactPath.startsWith('/ru/')) contactLang = 'ru';
-    const langInput = contactForm.querySelector('input[name="lang"]');
-    if (langInput) langInput.value = contactLang;
-
     contactForm.addEventListener('submit', async function(e) {
       e.preventDefault();
 
@@ -650,7 +626,7 @@ function showToast(type, title, message) {
       submitBtn.textContent = t('submitting');
 
       const formData = new FormData(this);
-      formData.set('pagePath', window.location.pathname);
+      formData.set('pagePath', window.location.pathname + window.location.search);
 
       try {
         const response = await fetch('/api/inquiry', {

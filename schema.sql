@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS inquiries (
   country TEXT NOT NULL,
   email TEXT NOT NULL,
   phone TEXT,
-  lang TEXT DEFAULT 'en',
   page_path TEXT,
   product_type TEXT,
   quantity TEXT,
