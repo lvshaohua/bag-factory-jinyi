@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS inquiries (
   email TEXT NOT NULL,
   phone TEXT,
   page_path TEXT,
+  honeypot TEXT,
   product_type TEXT,
   quantity TEXT,
   message TEXT,

@@ -292,6 +292,9 @@ function showToast(type, title, message) {
               <label for="inquiryMessage">Message</label>
               <textarea id="inquiryMessage" name="message" rows="3" placeholder="Describe your needs: size, print content, etc."></textarea>
             </div>
+            <div class="hp-field" aria-hidden="true">
+              <input type="text" id="inquiryCompany" name="company" tabindex="-1" autocomplete="off">
+            </div>
             <button type="submit" class="btn btn-primary modal-submit" id="modalSubmit">Get a Free Quote</button>
           </form>
           <div class="modal-success" id="modalSuccess" style="display:none;">
@@ -398,6 +401,7 @@ function showToast(type, title, message) {
     if (quantity) formData.append('quantity', quantity);
     if (message) formData.append('message', message);
     formData.append('pagePath', window.location.pathname + window.location.search);
+    formData.append('company', document.getElementById('inquiryCompany').value);
 
     try {
       const response = await fetch('/api/inquiry', {

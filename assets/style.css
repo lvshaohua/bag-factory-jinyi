@@ -2633,3 +2633,12 @@ body {
 @media (max-width: 480px) {
   .eco-grid { grid-template-columns: 1fr; }
 }
+
+/* ===== Honeypot field (hidden from users, filled by bots) ===== */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
