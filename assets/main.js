@@ -409,6 +409,7 @@ function showToast(type, title, message) {
     if (productType) formData.append('productType', productType);
     if (quantity) formData.append('quantity', quantity);
     if (message) formData.append('message', message);
+    formData.append('pagePath', window.location.pathname);
 
     try {
       const response = await fetch('/api/inquiry', {
@@ -649,6 +650,7 @@ function showToast(type, title, message) {
       submitBtn.textContent = t('submitting');
 
       const formData = new FormData(this);
+      formData.set('pagePath', window.location.pathname);
 
       try {
         const response = await fetch('/api/inquiry', {
