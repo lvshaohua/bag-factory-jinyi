@@ -1816,13 +1816,12 @@ body {
 
 .clients-track {
   display: flex;
-  gap: 0.65rem;
+  gap: 1.1rem;
   overflow-x: auto;
   overflow-y: hidden;
-  scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-  padding: 0.1rem 2.25rem 0.25rem;
+  padding: 0.1rem 2.5rem 0.25rem;
   cursor: grab;
 }
 
@@ -1832,21 +1831,20 @@ body {
 .clients-track { scrollbar-width: none; -ms-overflow-style: none; }
 
 .clients-track img {
-  flex: 0 0 160px;
-  width: 160px;
-  height: 213px;
+  flex: 0 0 200px;
+  width: 200px;
+  height: 267px;
   object-fit: cover;
   display: block;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid var(--rule);
   background: var(--surface);
-  scroll-snap-align: start;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .clients-track img:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
 }
 
 .clients-arrow {
@@ -1884,13 +1882,14 @@ body {
 .clients-next { right: 0; }
 
 @media (max-width: 720px) {
-  .clients-track img { flex: 0 0 130px; width: 130px; height: 173px; }
-  .clients-track { padding: 0.1rem 1.75rem 0.25rem; }
-  .clients-arrow { width: 26px; height: 26px; font-size: 1rem; }
+  .clients-track img { flex: 0 0 150px; width: 150px; height: 200px; }
+  .clients-track { padding: 0.1rem 2rem 0.25rem; }
+  .clients-arrow { width: 28px; height: 28px; font-size: 1rem; }
 }
 
 @media (max-width: 480px) {
-  .clients-track img { flex: 0 0 110px; width: 110px; height: 147px; }
+  .clients-track img { flex: 0 0 125px; width: 125px; height: 167px; }
+  .clients-track { padding: 0.1rem 1.75rem 0.25rem; }
 }
 
 /* Stats Grid */

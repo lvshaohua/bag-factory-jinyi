@@ -785,86 +785,65 @@ function showToast(type, title, message) {
     // No mouseleave reset — keep last hovered image active
   });
 
-// ===== Clients Carousel: auto-scroll + arrows =====
+// ===== Clients Carousel: continuous marquee scroll + arrows =====
 (function initClientsCarousel() {
   const rows = document.querySelectorAll('.clients-row');
   if (!rows.length) return;
 
-  const STEP_RATIO = 0.85;   // scroll 85% of track width per tick
-  const INTERVAL_MS = 3500;  // auto-scroll every 3.5s
-  const EDGE_BUFFER = 8;     // px tolerance for edge detection
+  const PX_PER_SEC = 90;   // continuous scroll speed
+  const EDGE_BUFFER = 4;
 
-  rows.forEach((row, idx) => {
+  rows.forEach((row) => {
     const track = row.querySelector('.clients-track');
     const prevBtn = row.querySelector('.clients-prev');
     const nextBtn = row.querySelector('.clients-next');
     if (!track) return;
 
-    let timer = null;
     let paused = false;
+    let direction = 1;
+    let rafId = null;
+    let lastTs = null;
+    let speedMul = 1;
 
-    function scrollStep(direction) {
-      const max = track.scrollWidth - track.clientWidth;
-      if (max <= 0) return;
-      const step = track.clientWidth * STEP_RATIO;
-
-      if (direction > 0) {
-        // forward
-        if (track.scrollLeft >= max - EDGE_BUFFER) {
-          // wrap to start with a quick pause
-          track.scrollTo({ left: 0, behavior: 'auto' });
-        } else {
-          track.scrollBy({ left: step, behavior: 'smooth' });
-        }
-      } else {
-        // backward
-        if (track.scrollLeft <= EDGE_BUFFER) {
-          track.scrollTo({ left: max, behavior: 'auto' });
-        } else {
-          track.scrollBy({ left: -step, behavior: 'smooth' });
+    function frame(ts) {
+      if (lastTs == null) lastTs = ts;
+      const dt = (ts - lastTs) / 1000;
+      lastTs = ts;
+      if (!paused) {
+        const max = track.scrollWidth - track.clientWidth;
+        if (max > 0) {
+          track.scrollLeft += direction * PX_PER_SEC * speedMul * dt;
+          if (track.scrollLeft >= max - EDGE_BUFFER) track.scrollLeft = 0;
+          else if (track.scrollLeft <= EDGE_BUFFER) track.scrollLeft = max;
         }
       }
+      if (speedMul > 1) speedMul = Math.max(1, speedMul - 0.02);
+      rafId = requestAnimationFrame(frame);
     }
 
-    function tick() {
-      if (!paused) scrollStep(1);
+    function arrowStep(dir) {
+      direction = dir;
+      speedMul = 3;
+      track.scrollBy({ left: dir * track.clientWidth * 0.85, behavior: 'smooth' });
     }
 
-    function start() {
-      stop();
-      timer = setInterval(tick, INTERVAL_MS);
-    }
-    function stop() {
-      if (timer) { clearInterval(timer); timer = null; }
-    }
+    if (prevBtn) prevBtn.addEventListener('click', () => arrowStep(-1));
+    if (nextBtn) nextBtn.addEventListener('click', () => arrowStep(1));
 
-    // Arrow clicks
-    if (prevBtn) prevBtn.addEventListener('click', () => { scrollStep(-1); });
-    if (nextBtn) nextBtn.addEventListener('click', () => { scrollStep(1); });
-
-    // Pause on hover or drag
     row.addEventListener('mouseenter', () => { paused = true; });
     row.addEventListener('mouseleave', () => { paused = false; });
     track.addEventListener('touchstart', () => { paused = true; }, { passive: true });
-    track.addEventListener('touchend', () => {
-      // resume after touch, but small delay to avoid fighting the user
-      setTimeout(() => { paused = false; }, 1500);
-    });
+    track.addEventListener('touchend', () => { setTimeout(() => { paused = false; }, 1200); });
+    track.addEventListener('scroll', () => { if (!paused) paused = true; }, { passive: true });
 
-    // Keyboard accessibility: horizontal arrows
     row.tabIndex = 0;
     row.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') { e.preventDefault(); scrollStep(-1); }
-      if (e.key === 'ArrowRight') { e.preventDefault(); scrollStep(1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); arrowStep(-1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); arrowStep(1); }
     });
 
-    // Only start auto-scroll if track actually overflows
     if (track.scrollWidth > track.clientWidth + EDGE_BUFFER) {
-      start();
-      // Restart timer after user scrolls manually
-      track.addEventListener('scroll', () => {
-        if (!paused) { stop(); timer = setInterval(tick, INTERVAL_MS * 2); }
-      }, { passive: true });
+      rafId = requestAnimationFrame(frame);
     }
   });
 })();
