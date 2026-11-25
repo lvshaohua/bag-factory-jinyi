@@ -784,3 +784,87 @@ function showToast(type, title, message) {
 
     // No mouseleave reset — keep last hovered image active
   });
+
+// ===== Clients Carousel: auto-scroll + arrows =====
+(function initClientsCarousel() {
+  const rows = document.querySelectorAll('.clients-row');
+  if (!rows.length) return;
+
+  const STEP_RATIO = 0.85;   // scroll 85% of track width per tick
+  const INTERVAL_MS = 3500;  // auto-scroll every 3.5s
+  const EDGE_BUFFER = 8;     // px tolerance for edge detection
+
+  rows.forEach((row, idx) => {
+    const track = row.querySelector('.clients-track');
+    const prevBtn = row.querySelector('.clients-prev');
+    const nextBtn = row.querySelector('.clients-next');
+    if (!track) return;
+
+    let timer = null;
+    let paused = false;
+
+    function scrollStep(direction) {
+      const max = track.scrollWidth - track.clientWidth;
+      if (max <= 0) return;
+      const step = track.clientWidth * STEP_RATIO;
+
+      if (direction > 0) {
+        // forward
+        if (track.scrollLeft >= max - EDGE_BUFFER) {
+          // wrap to start with a quick pause
+          track.scrollTo({ left: 0, behavior: 'auto' });
+        } else {
+          track.scrollBy({ left: step, behavior: 'smooth' });
+        }
+      } else {
+        // backward
+        if (track.scrollLeft <= EDGE_BUFFER) {
+          track.scrollTo({ left: max, behavior: 'auto' });
+        } else {
+          track.scrollBy({ left: -step, behavior: 'smooth' });
+        }
+      }
+    }
+
+    function tick() {
+      if (!paused) scrollStep(1);
+    }
+
+    function start() {
+      stop();
+      timer = setInterval(tick, INTERVAL_MS);
+    }
+    function stop() {
+      if (timer) { clearInterval(timer); timer = null; }
+    }
+
+    // Arrow clicks
+    if (prevBtn) prevBtn.addEventListener('click', () => { scrollStep(-1); });
+    if (nextBtn) nextBtn.addEventListener('click', () => { scrollStep(1); });
+
+    // Pause on hover or drag
+    row.addEventListener('mouseenter', () => { paused = true; });
+    row.addEventListener('mouseleave', () => { paused = false; });
+    track.addEventListener('touchstart', () => { paused = true; }, { passive: true });
+    track.addEventListener('touchend', () => {
+      // resume after touch, but small delay to avoid fighting the user
+      setTimeout(() => { paused = false; }, 1500);
+    });
+
+    // Keyboard accessibility: horizontal arrows
+    row.tabIndex = 0;
+    row.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); scrollStep(-1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); scrollStep(1); }
+    });
+
+    // Only start auto-scroll if track actually overflows
+    if (track.scrollWidth > track.clientWidth + EDGE_BUFFER) {
+      start();
+      // Restart timer after user scrolls manually
+      track.addEventListener('scroll', () => {
+        if (!paused) { stop(); timer = setInterval(tick, INTERVAL_MS * 2); }
+      }, { passive: true });
+    }
+  });
+})();

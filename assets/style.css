@@ -1809,6 +1809,11 @@ body {
   gap: 0.75rem;
 }
 
+.clients-row {
+  position: relative;
+  outline: none;
+}
+
 .clients-track {
   display: flex;
   gap: 0.65rem;
@@ -1817,7 +1822,7 @@ body {
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 0.25rem;
+  padding: 0.1rem 2.25rem 0.25rem;
   cursor: grab;
 }
 
@@ -1844,8 +1849,44 @@ body {
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
 }
 
+.clients-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: all 0.2s;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.clients-arrow:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.clients-arrow:active { transform: translateY(-50%) scale(0.95); }
+
+.clients-prev { left: 0; }
+.clients-next { right: 0; }
+
 @media (max-width: 720px) {
   .clients-track img { flex: 0 0 130px; width: 130px; height: 173px; }
+  .clients-track { padding: 0.1rem 1.75rem 0.25rem; }
+  .clients-arrow { width: 26px; height: 26px; font-size: 1rem; }
 }
 
 @media (max-width: 480px) {
